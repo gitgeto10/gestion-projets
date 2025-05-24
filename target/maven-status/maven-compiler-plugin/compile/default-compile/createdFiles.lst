@@ -1,9 +1,0 @@
-com\mycompany\gestion\projets\JakartaRestConfiguration.class
-com\mycompany\gestion\projets\model\Utilisateur.class
-com\mycompany\gestion\projets\repository\UtilisateurRepository.class
-com\mycompany\gestion\projets\service\UtilisateurService.class
-com\mycompany\gestion\projets\controller\LoginController.class
-com\mycompany\gestion\projets\service\UtilisateurServiceImpl.class
-com\mycompany\gestion\projets\controller\UtilisateurController.class
-com\mycompany\gestion\projets\resources\JakartaEE8Resource.class
-com\mycompany\gestion\projets\InitDbApp.class
