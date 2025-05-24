@@ -12,5 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class InitDbApp {
     public static void main(String[] args) {
         SpringApplication.run(InitDbApp.class, args);
+               
     }
 }
