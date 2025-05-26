@@ -5,6 +5,7 @@
 package com.mycompany.gestion.projets.controller;
 
 import com.mycompany.gestion.projets.model.Utilisateur;
+import com.mycompany.gestion.projets.service.EquipeService;
 import com.mycompany.gestion.projets.service.UtilisateurService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class UtilisateurController {
 
     @Autowired
     private UtilisateurService utilisateurService;
+    @Autowired
+    private EquipeService equipeService;
 
     @GetMapping("/utilisateurs")
     public String listeUtilisateurs(Model model) {
@@ -77,6 +80,8 @@ public class UtilisateurController {
     public String dashboard(Model model) {
         int totalUtilisateurs = utilisateurService.countUtilisateurs();
         model.addAttribute("totalUtilisateurs", totalUtilisateurs);
+        int totalEquipes = equipeService.countEquipes();
+        model.addAttribute("totalEquipes", totalEquipes);
         return "admin/dashboard"; // fichier JSP
     }
     
