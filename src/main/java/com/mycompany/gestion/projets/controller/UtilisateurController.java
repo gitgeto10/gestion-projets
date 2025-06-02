@@ -5,7 +5,9 @@
 package com.mycompany.gestion.projets.controller;
 
 import com.mycompany.gestion.projets.model.Utilisateur;
+import com.mycompany.gestion.projets.service.EquipeService;
 import com.mycompany.gestion.projets.service.UtilisateurService;
+import com.mycompany.gestion.projets.service.ProjectService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,16 +29,16 @@ public class UtilisateurController {
 
     @Autowired
     private UtilisateurService utilisateurService;
+    @Autowired
+    private EquipeService equipeService;
+    @Autowired
+    private ProjectService projectService;
 
     @GetMapping("/utilisateurs")
     public String listeUtilisateurs(Model model) {
         List<Utilisateur> utilisateurs = utilisateurService.findAll();
         model.addAttribute("utilisateurs", utilisateurs);
         return "admin/utilisateurs"; // /WEB-INF/views/admin/liste_utilisateurs.jsp
-    }
-    @GetMapping("/projets")
-    public String projets() {
-        return "admin/projets";
     }
 
     @GetMapping("/profil")
@@ -77,6 +79,10 @@ public class UtilisateurController {
     public String dashboard(Model model) {
         int totalUtilisateurs = utilisateurService.countUtilisateurs();
         model.addAttribute("totalUtilisateurs", totalUtilisateurs);
+        int totalEquipes = equipeService.countEquipes();
+        model.addAttribute("totalEquipes", totalEquipes);
+        int totalProjets = projectService.countProjects();
+        model.addAttribute("totalProjets", totalProjets);
         return "admin/dashboard"; // fichier JSP
     }
     

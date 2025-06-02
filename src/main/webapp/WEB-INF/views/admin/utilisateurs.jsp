@@ -181,6 +181,7 @@
             <li><a href="/admin/dashboard">Dashboard</a></li>
             <li><a href="/admin/utilisateurs" class="active">Utilisateurs</a></li>
             <li><a href="/admin/projets">Projets</a></li>
+            <li><a href="/admin/equipes" >Equipes</a></li>
             <li><a href="/admin/profil">Profile</a></li>
         </ul>
     </div>
