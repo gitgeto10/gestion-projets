@@ -1,31 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.mycompany.gestion.projets.model.Project" %>
-<%@ page import="com.mycompany.gestion.projets.model.Equipe" %>
-<%@ page import="com.mycompany.gestion.projets.model.Utilisateur" %>
-<%@ page import="com.mycompany.gestion.projets.service.EquipeService" %>
-<%@ page import="com.mycompany.gestion.projets.service.UtilisateurService" %>
-<%@ page import="org.springframework.web.context.WebApplicationContext" %>
-<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
+<%@ page import="com.mycompany.gestion.projets.model.Equipe" %> <%-- Remplace par ton vrai package/model --%>
 
 <%
-    List<Project> projets = (List<Project>) request.getAttribute("projets");
-    if (projets == null) {
-        projets = new java.util.ArrayList<>();
-    }
 
-    // Récupération des services pour afficher les noms
-    WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(application);
-    EquipeService equipeService = context.getBean(EquipeService.class);
-    UtilisateurService utilisateurService = context.getBean(UtilisateurService.class);
+    List<Equipe> equipes = (List<Equipe>) request.getAttribute("equipes");
+    if (equipes == null) {
+        equipes = new java.util.ArrayList<>(); // vide temporairement
+    }
 %>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des Projets</title>
+    <title>Gestion des Utilisateurs</title>
     <style>
         .navbar {
             display: flex;
@@ -48,6 +38,7 @@
             letter-spacing: 2px;
         }
 
+        /* Bouton déconnexion */
         .btn-logout {
             background-color: #0c0c0c;
             color: white;
@@ -65,9 +56,10 @@
             background-color: #d90429;
         }
 
+        /* Sidebar */
         .sidebar {
             position: fixed;
-            top: 60px;
+            top: 60px; /* hauteur navbar */
             left: 0;
             width: 220px;
             height: calc(100% - 60px);
@@ -142,8 +134,6 @@
             font-weight: 600;
             cursor: pointer;
             margin-right: 5px;
-            text-decoration: none;
-            display: inline-block;
         }
 
         .edit-btn {
@@ -155,12 +145,6 @@
             background-color: #d90429;
             color: white;
         }
-
-        .view-btn {
-            background-color: #0077be;
-            color: white;
-        }
-
         .ajouter-container {
             display: flex;
             justify-content: flex-end;
@@ -195,18 +179,19 @@
 <div class="sidebar">
     <ul>
         <li><a href="/admin/dashboard">Dashboard</a></li>
-        <li><a href="/admin/utilisateurs">Utilisateurs</a></li>
-        <li><a href="/admin/projets" class="active">Projets</a></li>
-        <li><a href="/admin/equipes">Equipes</a></li>
+        <li><a href="/admin/utilisateurs" >Utilisateurs</a></li>
+        <li><a href="/admin/projets">Projets</a></li>
+        <li><a href="/admin/equipes" class="active">Equipes</a></li>
         <li><a href="/admin/profil">Profile</a></li>
     </ul>
 </div>
 
 <!-- Contenu principal -->
 <div class="main-content">
-    <h1>Liste des Projets</h1>
+    <h1>Liste des Equipes</h1>
     <div class="ajouter-container">
-        <a href="${pageContext.request.contextPath}/admin/projets/ajouter" class="btn-ajouter">Ajouter un projet</a>
+        <a href="${pageContext.request.contextPath}/admin/equipes/ajouter" class="btn-ajouter">Ajouter un equipe</a>
+
     </div>
 
     <table>
@@ -214,43 +199,22 @@
         <tr>
             <th>ID</th>
             <th>Nom</th>
-            <th>Description</th>
-            <th>Date Début</th>
-            <th>Date Fin</th>
-            <th>Statut</th>
-            <th>Équipe</th>
-            <th>Chef de Projet</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <%
-            for (Project projet : projets) {
-                // Récupération des noms des entités liées
-                Equipe equipe = equipeService.findById(projet.getEquipeId());
-                Utilisateur chefProjet = utilisateurService.findById(projet.getChefProjetId());
+        <c:forEach var="equipe" items="${equipes}">
+            <tr>
+                <td>${equipe.id}</td>
+                <td>${equipe.nom}</td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/admin/equipes/modifier?id=${equipe.id}" class="edit-btn">Modifier</a>
+                    <a href="${pageContext.request.contextPath}/admin/equipes/supprimer?id=${equipe.id}" class="delete-btn" onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
+                </td>
 
-                String nomEquipe = (equipe != null) ? equipe.getNom() : "Non assignée";
-                String nomChef = (chefProjet != null) ? chefProjet.getNom() : "Non assigné";
-        %>
-        <tr>
-            <td><%= projet.getId() %></td>
-            <td><%= projet.getNom() %></td>
-            <td><%= projet.getDescription() != null ? projet.getDescription() : "" %></td>
-            <td><%= projet.getDateDebut() != null ? projet.getDateDebut() : "" %></td>
-            <td><%= projet.getDateFin() != null ? projet.getDateFin() : "" %></td>
-            <td><%= projet.getStatut() != null ? projet.getStatut() : "" %></td>
-            <td><%= nomEquipe %></td>
-            <td><%= nomChef %></td>
-            <td>
-                <a href="${pageContext.request.contextPath}/admin/projets/details?id=<%= projet.getId() %>" class="action-btn view-btn">Voir</a>
-                <a href="${pageContext.request.contextPath}/admin/projets/modifier?id=<%= projet.getId() %>" class="action-btn edit-btn">Modifier</a>
-                <a href="${pageContext.request.contextPath}/admin/projets/supprimer?id=<%= projet.getId() %>" class="action-btn delete-btn" onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
-            </td>
-        </tr>
-        <%
-            }
-        %>
+            </tr>
+        </c:forEach>
+        <%-- Si JSTL n'est pas utilisé, tu peux aussi parcourir en scriptlet --%>
         </tbody>
     </table>
 </div>
