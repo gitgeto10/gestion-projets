@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS temps_travail (
 );
 -- Utilisateurs (mot de passe original entre parenthèses)
 INSERT INTO utilisateur (nom, email, pwd, role) VALUES
-('Ahmed El Mansouri', 'ahmed@edu.uiz.ac.ma', '$2a$10$PzRwyo9mKJxUzYmX27RP/OvIMb9ZKkGGP7BWdvNQguTayffv3nU/y', 'Administrateur'), -- (pwd123)
-('Fatima Zahra harit', 'fatima@edu.uiz.ac.ma', '$2a$10$0O8zkLU/0URx4htxP2t9GufW4fDkBYchP69kEjZ4oU5S.btxidXcm', 'ChefProjet'),       -- (pwd456)
-('Youssef Amrani', 'youssef@edu.uiz.ac.ma', '$2a$10$Vn6gmZbZbwFujm1NQ0eD5e4LO1F82QBdheKxP4O8ZSGU1gZyoA1t2', 'Membre');         -- (pwd789)
+('Ahmed El Mansouri', 'ahmed@edu.uiz.ac.ma', '$2a$10$xaPL4KdSpgx9.QXFu1zZxeJIi2KSGo94M9Vvy733F1dbENeLR8K0e', 'Administrateur'), -- (pwd123)
+('Fatima Zahra harit', 'fatima@edu.uiz.ac.ma', '$2a$10$tYUumEEKcwwrE7DV./e9geMEecu4qNm/A9JJpzSBuB0YXsWBioiqq', 'ChefProjet'),       -- (pwd456)
+('Youssef Amrani', 'youssef@edu.uiz.ac.ma', '$2a$10$ulFxmcXB01ug/HIYCiSFauQYBa3hQ0MKtcqaybLr6kemSQhg0Qqfy', 'Membre');         -- (pwd789)
 
 -- Données pour la table équipe
 INSERT INTO equipe (nom) VALUES
