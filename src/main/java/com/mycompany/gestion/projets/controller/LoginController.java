@@ -1,6 +1,8 @@
 package com.mycompany.gestion.projets.controller;
 
 import com.mycompany.gestion.projets.model.Utilisateur;
+import com.mycompany.gestion.projets.service.EquipeService;
+import com.mycompany.gestion.projets.service.ProjectService;
 import com.mycompany.gestion.projets.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,11 @@ public class LoginController {
 
     @Autowired
     private UtilisateurService utilisateurService;
-
+    @Autowired
+    private EquipeService equipeService;
+    @Autowired
+    private ProjectService projectService;
+    
     @GetMapping("/login")
     public String loginForm() {
         return "common/login";
@@ -59,6 +65,10 @@ public class LoginController {
     public String adminHome(Model model) {
         int totalUtilisateurs = utilisateurService.countUtilisateurs();
         model.addAttribute("totalUtilisateurs", totalUtilisateurs);
+        int totalEquipes = equipeService.countEquipes();
+        model.addAttribute("totalEquipes", totalEquipes);
+        int totalProjets = projectService.countProjects();
+        model.addAttribute("totalProjets", totalProjets);
         return "admin/dashboard"; 
     }
 
