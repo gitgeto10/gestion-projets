@@ -243,7 +243,6 @@
             <td><%= nomEquipe %></td>
             <td><%= nomChef %></td>
             <td>
-                <a href="${pageContext.request.contextPath}/admin/projets/details?id=<%= projet.getId() %>" class="action-btn view-btn">Voir</a>
                 <a href="${pageContext.request.contextPath}/admin/projets/modifier?id=<%= projet.getId() %>" class="action-btn edit-btn">Modifier</a>
                 <a href="${pageContext.request.contextPath}/admin/projets/supprimer?id=<%= projet.getId() %>" class="action-btn delete-btn" onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
             </td>
