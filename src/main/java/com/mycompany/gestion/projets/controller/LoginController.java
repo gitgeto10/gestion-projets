@@ -42,7 +42,7 @@ public class LoginController {
                 case "administrateur":
                     return "redirect:/admin/home";
                 case "chefprojet":
-                    return "redirect:/chef/home";
+                    return "redirect:/chef/taches";
                 case "membre":
                     return "redirect:/membre/home";
                 default:

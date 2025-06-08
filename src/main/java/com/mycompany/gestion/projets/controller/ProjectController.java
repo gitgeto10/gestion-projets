@@ -11,6 +11,8 @@ import com.mycompany.gestion.projets.service.ProjectService;
 import com.mycompany.gestion.projets.service.EquipeService;
 import com.mycompany.gestion.projets.service.UtilisateurService;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,7 +51,9 @@ public class ProjectController {
 
         // Charger les listes pour les select
         List<Equipe> equipes = equipeService.findAll();
-        List<Utilisateur> chefsProjets = utilisateurService.findAll(); // ou filtrer par rôle ChefProjet
+        List<Utilisateur> chefsProjets = utilisateurService.findAll().stream()
+                .filter(utilisateur -> "ChefProjet".equals(utilisateur.getRole()))
+                .collect(Collectors.toList());
 
         model.addAttribute("equipes", equipes);
         model.addAttribute("chefsProjets", chefsProjets);
@@ -70,7 +74,9 @@ public class ProjectController {
 
         // Charger les listes pour les select
         List<Equipe> equipes = equipeService.findAll();
-        List<Utilisateur> chefsProjets = utilisateurService.findAll(); // ou filtrer par rôle ChefProjet
+        List<Utilisateur> chefsProjets = utilisateurService.findAll().stream()
+                .filter(utilisateur -> "ChefProjet".equals(utilisateur.getRole()))
+                .collect(Collectors.toList());
 
         model.addAttribute("equipes", equipes);
         model.addAttribute("chefsProjets", chefsProjets);
