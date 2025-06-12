@@ -157,9 +157,10 @@
 <!-- Sidebar -->
 <div class="sidebar">
     <ul>
-        <li><a href="/chef/dashboard" class="active">Dashboard</a></li>
-        <li><a href="/chef/taches">Taches</a></li>
-        <li><a href="/chef/profil">Profile</a></li>
+        <li><a href="/chef/dashboard" >Dashboard</a></li>
+        <li><a href="/chef/taches" class="active">Taches</a></li>
+        <li><a href="/chef/projets" >Projets</a></li>
+        <li><a href="/chef/profil" >Profile</a></li>
     </ul>
 </div>
 
