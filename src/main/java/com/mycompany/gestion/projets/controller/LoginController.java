@@ -36,7 +36,7 @@ public class LoginController {
                 case "administrateur":
                     return "redirect:/admin/home";
                 case "chefprojet":
-                    return "redirect:/chef/taches";
+                    return "redirect:/chef/dashboard";
                 case "membre":
                     return "redirect:/membre/home";
                 default:
@@ -45,8 +45,7 @@ public class LoginController {
             }
         } else {
             model.addAttribute("message", "Email ou mot de passe incorrect");
-                return "common/error";
-
+            return "common/error";
         }
     }
 
