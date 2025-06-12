@@ -216,7 +216,7 @@
             <th>Date Fin</th>
             <th>Statut</th>
             <th>Équipe</th>
-            <th>Chef de Projet</th>
+
         </tr>
         </thead>
         <tbody>
