@@ -17,4 +17,6 @@ public interface TacheService {
     int countTaches();
     int countTachesByProjet(int projetId);
     int countTachesByEtat(String etat);
+    int countByUserId(int userId);
+    List<Tache> getTachesPourMembre(int membreId);
 }

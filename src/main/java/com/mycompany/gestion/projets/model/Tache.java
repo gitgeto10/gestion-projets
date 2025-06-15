@@ -7,6 +7,25 @@ public class Tache {
     private String etat;
     private Integer projetId;
     private Integer membreId;
+private String projetNom;
+private Integer livrableId;
+
+public Integer getLivrableId() {
+    return livrableId;
+}
+
+public void setLivrableId(Integer livrableId) {
+    this.livrableId = livrableId;
+}
+
+
+public String getProjetNom() {
+    return projetNom;
+}
+
+public void setProjetNom(String projetNom) {
+    this.projetNom = projetNom;
+}
 
     // Constructeur par défaut
     public Tache() {

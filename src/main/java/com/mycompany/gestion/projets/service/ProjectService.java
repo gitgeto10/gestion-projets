@@ -12,4 +12,6 @@ public interface ProjectService {
     boolean save(Project project);
     boolean delete(int id);
     int countProjects();
+    int countProjetsByMembreId(int membreId);
+    List<Project> getProjetsParMembreId(int membreId);
 }

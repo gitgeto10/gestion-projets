@@ -1,10 +1,6 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.text.SimpleDateFormat, java.util.Date" %>
-<%
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    String dateDepot = sdf.format(new Date());
-%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -165,32 +161,31 @@
     </div>
 
 <div class="container">
-    <h1>Soumettre un Livrable</h1>
-    <div class="date-depot">Date de dépôt : <%= dateDepot %></div>
-
-    <!-- Formulaire avec enctype multipart/form-data -->
-    <form:form method="post" modelAttribute="livrable" action="${pageContext.request.contextPath}/membre/soumettreLivrable" enctype="multipart/form-data">
+    <h1>Modifier un Livrable</h1>
         
-        <!-- Champ caché tacheId -->
-        <form:hidden path="tacheId"/>
+<form action="${pageContext.request.contextPath}/membre/modifierLivrable" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="${livrable.id}" />
+    <input type="hidden" name="tacheId" value="${livrable.tacheId}" />
 
-        <!-- Nom (titre du livrable) -->
-        <label for="nom">Titre du livrable :</label><br/>
-        <form:input path="nom" id="nom" required="true" /><br/><br/>
+    <label>Nom du livrable :</label>
+    <input type="text" name="nom" value="${livrable.nom}" required />
 
-        <!-- Fichier à uploader -->
-        <label for="fichier">Fichier du livrable :</label><br/>
-        <input type="file" id="fichier" name="fichier" required="true" /><br/><br/>
+    <br/>
 
-        <!-- Date de dépôt (readonly) affichée dans la page, pas modifiable dans formulaire -->
-        <label>Date de dépôt :</label><br/>
-        <input type="text" value="<%= dateDepot %>" readonly style="width:100%; padding: .6rem; margin-bottom:1.2rem; border-radius:5px; border:1px solid #bbb; font-size:1rem;" /><br/><br/>
+    <label>Fichier actuel :</label>
+    <c:if test="${not empty livrable.fichierNom}">
+        <p>${livrable.fichierNom}</p>
+    </c:if>
+    <c:if test="${empty livrable.fichierNom}">
+    </c:if>
 
-        <button type="submit">Soumettre</button>
-    </form:form>
-
+    <label>Nouveau fichier (facultatif) :</label>
+    <input type="file" name="fichier" />
+    <br/>
+    <button type="submit">Modifier</button>
+</form>
     <br/>
     <a href="${pageContext.request.contextPath}/membre/mesTaches">Retour aux tâches</a>
 </div>
-</body>
+    </body>
 </html>
