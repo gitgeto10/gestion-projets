@@ -178,8 +178,8 @@
                 <p>Nombre total : ${totalUtilisateurs}</p>
                 </div>
             <div class="card">
-                <h3>Projets en cours</h3>
-                <p>35 projets actifs</p>
+                <h3>Projets</h3>
+                <p>Nombre total :${totalProjets}</p>
             </div>
             <div class="card">
                 <h3>Equipes</h3>

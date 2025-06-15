@@ -189,6 +189,19 @@ public class ProjectRepository {
         }
         return count;
     }
+     public int countByUserId(int userId) {
+        String sql = "SELECT COUNT(*) FROM projet_utilisateur WHERE utilisateur_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public boolean delete(int id) {
         try {
@@ -202,4 +215,47 @@ public class ProjectRepository {
             return false;
         }
     }
+    public int countProjetsByMembreId(int membreId) {
+    int count = 0;
+    try {
+        String sql = "SELECT COUNT(DISTINCT projet_id) AS total FROM tache WHERE membre_id = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, membreId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            count = rs.getInt("total");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return count;
+}
+public List<Project> findByMembreId(int membreId) {
+    List<Project> projects = new ArrayList<>();
+    try {
+        String sql = "SELECT p.* FROM projet p " +
+                     "JOIN equipe e ON p.equipe_id = e.id " +
+                     "JOIN utilisateur u ON e.id = u.equipe_id " +
+                     "WHERE u.id = ?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, membreId);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Project project = new Project();
+            project.setId(rs.getInt("id"));
+            project.setNom(rs.getString("nom"));
+            project.setDescription(rs.getString("description"));
+            project.setDateDebut(rs.getDate("dateDebut"));
+            project.setDateFin(rs.getDate("dateFin"));
+            project.setStatut(rs.getString("statut"));
+            project.setEquipeId(rs.getInt("equipe_id"));
+            project.setChefProjetId(rs.getInt("chef_projet_id"));
+            projects.add(project);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return projects;
+}
 }

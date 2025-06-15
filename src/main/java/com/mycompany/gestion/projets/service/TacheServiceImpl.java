@@ -89,4 +89,12 @@ public class TacheServiceImpl implements TacheService {
     public int countTachesByEtat(String etat) {
         return tacheRepository.countTachesByEtat(etat);
     }
+    @Override
+    public int countByUserId(int userId) {
+        return tacheRepository.countByUserId(userId);
+    }
+    @Override
+    public List<Tache> getTachesPourMembre(int membreId) {
+        return tacheRepository.findTachesPourMembre(membreId);
+    }
 }

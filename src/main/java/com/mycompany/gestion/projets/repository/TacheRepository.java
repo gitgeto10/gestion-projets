@@ -191,7 +191,19 @@ public class TacheRepository {
         }
         return count;
     }
-
+    public int countByUserId(int userId) {
+        String sql = "SELECT COUNT(*) FROM tache WHERE utilisateur_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
     public int countTachesByProjet(int projetId) {
         int count = 0;
         try {
@@ -272,4 +284,42 @@ public class TacheRepository {
             stmt.setNull(parameterIndex, Types.INTEGER);
         }
     }
+public List<Tache> findTachesPourMembre(int membreId) {
+    List<Tache> taches = new ArrayList<>();
+String sql =
+    "SELECT t.id, t.nom, t.dureeEstimee, t.etat, t.membre_id, p.nom AS nom_projet, l.id AS livrable_id " +
+    "FROM tache t " +
+    "JOIN projet p ON t.projet_id = p.id " +
+    "LEFT JOIN livrable l ON l.tache_id = t.id " +
+    "WHERE t.membre_id = ? " +
+    "GROUP BY t.id, t.nom, t.dureeEstimee, t.etat, t.membre_id, p.nom, l.id";
+
+
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, membreId);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Tache tache = new Tache();
+            tache.setId(rs.getInt("id"));
+            tache.setNom(rs.getString("nom"));
+            tache.setDureeEstimee(rs.getInt("dureeEstimee"));
+            tache.setEtat(rs.getString("etat"));
+            tache.setMembreId(rs.getInt("membre_id"));
+            tache.setProjetNom(rs.getString("nom_projet"));
+
+            int livrableId = rs.getInt("livrable_id");
+            if (!rs.wasNull()) {
+                tache.setLivrableId(livrableId);
+            } else {
+                tache.setLivrableId(null); // important
+            }
+
+            taches.add(tache);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return taches;
+}
 }
