@@ -8,7 +8,7 @@
  */
 
 -- Création de la base de données
---CREATE DATABASE IF NOT EXISTS gestion_projets DEFAULT CHARACTER SET utf8mb4;
+CREATE DATABASE IF NOT EXISTS gestion_projets DEFAULT CHARACTER SET utf8mb4;
 USE gestion_projets;
 
 -- Table Utilisateur
@@ -74,7 +74,8 @@ CREATE TABLE IF NOT EXISTS temps_travail (
 );
 -- Utilisateurs (mot de passe original entre parenthèses)
 INSERT INTO utilisateur (nom, email, pwd, role) VALUES
-('Ahmed El Mansouri', 'ahmed@edu.uiz.ac.ma', '$2a$10$xaPL4KdSpgx9.QXFu1zZxeJIi2KSGo94M9Vvy733F1dbENeLR8K0e', 'Administrateur'), -- (pwd123)
+('Ahmed El Mansouri', '
+', '$2a$10$xaPL4KdSpgx9.QXFu1zZxeJIi2KSGo94M9Vvy733F1dbENeLR8K0e', 'Administrateur'), -- (pwd123)
 ('Fatima Zahra harit', 'fatima@edu.uiz.ac.ma', '$2a$10$tYUumEEKcwwrE7DV./e9geMEecu4qNm/A9JJpzSBuB0YXsWBioiqq', 'ChefProjet'),       -- (pwd456)
 ('Youssef Amrani', 'youssef@edu.uiz.ac.ma', '$2a$10$ulFxmcXB01ug/HIYCiSFauQYBa3hQ0MKtcqaybLr6kemSQhg0Qqfy', 'Membre');         -- (pwd789)
 
