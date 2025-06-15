@@ -2,9 +2,13 @@ C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\proj
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\model\Equipe.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\service\ProjectServiceImpl.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\controller\UtilisateurController.java
+C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\service\TacheService.java
+C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\repository\TacheRepository.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\resources\JakartaEE8Resource.java
+C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\service\TacheServiceImpl.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\service\UtilisateurService.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\service\EquipeServiceImpl.java
+C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\model\Tache.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\model\Utilisateur.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\InitDbApp.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\service\EquipeService.java
@@ -15,5 +19,6 @@ C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\proj
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\service\UtilisateurServiceImpl.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\repository\EquipeRepository.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\repository\ProjectRepository.java
+C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\controller\TacheController.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\model\Project.java
 C:\Doc\NetBeansProjects\gestion-projets\src\main\java\com\mycompany\gestion\projets\controller\LoginController.java
