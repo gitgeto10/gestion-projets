@@ -12,63 +12,69 @@
     <title>Soumettre un Livrable</title>
 <style>
         
-        body {
-            margin: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #F0F4EF;
-        }
+        /* Navbar */
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(90deg, #b17949, #b1825b);
-            padding: 1rem 2rem;
-            color: white;
-            position: fixed;
-            width: 100vw;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        }
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: linear-gradient(90deg, #96bbcf, #8382b4);
+          padding: 1rem 2rem;
+          color: white;
+          position: fixed;
+          width: 100%;
+          top: 0;
+          z-index: 1000;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+          flex-wrap: wrap;
+       }
         .logo {
             font-weight: 700;
             font-size: 1.6rem;
             letter-spacing: 2px;
         }
+
+        /* Bouton déconnexion */
         .btn-logout {
-            background-color: #38200a;
+            background-color: #0c0c0c;
             color: white;
             padding: 0.5rem 1rem;
             font-weight: 600;
             border-radius: 5px;
-            margin-right: 50px;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
+
         .btn-logout:hover {
-            background-color: #388E3C;
+            background-color: #d90429;
         }
+
+        /* Sidebar */
         .sidebar {
             position: fixed;
-            top: 60px;
+            top: 60px; /* hauteur navbar */
             left: 0;
             width: 220px;
             height: calc(100% - 60px);
-            background-color: #68370f;
+            background-color: #201b36;
             padding-top: 1.5rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .sidebar ul {
             list-style: none;
             padding-left: 0;
         }
+
         .sidebar ul li {
             margin: 1.2rem 0;
         }
+
         .sidebar ul li a {
-            color: #f8f8f8;
+            color: #caf0f8;
             text-decoration: none;
             display: block;
             padding: 0.8rem 1.5rem;
@@ -77,10 +83,11 @@
             transition: background-color 0.3s ease, border-left 0.3s ease;
             font-size: 1.1rem;
         }
-        .sidebar ul li a:hover,
-        .sidebar ul li a.active {
-            background-color: #996b4d;
-            border-left: 5px solid #ffffff;
+
+        .sidebar ul li a:hover, .sidebar ul li a.active {
+            background-color: #7badc9;
+            border-left: 5px solid #0a024d;
+            color: white;
         }
         .container {
             max-width: 600px;
@@ -91,16 +98,11 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
         h1 {
-            color: #615544;
+            color: #183357;
             margin-bottom: 1.5rem;
             text-align: center;
         }
-        .date-depot {
-            text-align: center;
-            font-weight: 600;
-            color: #444;
-            margin-bottom: 1rem;
-        }
+        
         label {
             display: block;
             margin-bottom: .5rem;
@@ -116,7 +118,7 @@
             font-size: 1rem;
         }
         button {
-            background-color: #7c6934;
+            background-color: #393258;
             color: white;
             padding: 0.8rem 1.5rem;
             border: none;
@@ -128,18 +130,9 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #2e7d32;
+            background-color: #2a2442;
         }
-        .message {
-            margin: 1rem auto;
-            padding: 1rem;
-            background-color: #e0dfcb;
-            color: #2e6e4c;
-            border-radius: 6px;
-            border: 1px solid #c3e6cb;
-            text-align: center;
-            max-width: 500px;
-        }
+       
     </style>
 </head>
 <body>
@@ -166,7 +159,6 @@
 
 <div class="container">
     <h1>Soumettre un Livrable</h1>
-    <div class="date-depot">Date de dépôt : <%= dateDepot %></div>
 
     <!-- Formulaire avec enctype multipart/form-data -->
     <form:form method="post" modelAttribute="livrable" action="${pageContext.request.contextPath}/membre/soumettreLivrable" enctype="multipart/form-data">
@@ -176,7 +168,7 @@
 
         <!-- Nom (titre du livrable) -->
         <label for="nom">Titre du livrable :</label><br/>
-        <form:input path="nom" id="nom" required="true" /><br/><br/>
+        <input type="text" id="nom" name="nom" placeholder="Titre du livrable" required />
 
         <!-- Fichier à uploader -->
         <label for="fichier">Fichier du livrable :</label><br/>

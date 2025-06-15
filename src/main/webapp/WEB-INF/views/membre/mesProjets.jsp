@@ -11,7 +11,7 @@
             <tr>
                 <th>Nom</th>
                 <th>Description</th>
-                <th>Date Début</th>
+                <th>Date Dï¿½but</th>
                 <th>Date Fin</th>
                 <th>Statut</th>
             </tr>

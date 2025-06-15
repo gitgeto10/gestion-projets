@@ -6,6 +6,9 @@ import com.mycompany.gestion.projets.model.Utilisateur;
 import com.mycompany.gestion.projets.service.TacheService;
 import com.mycompany.gestion.projets.service.ProjectService;
 import com.mycompany.gestion.projets.service.UtilisateurService;
+
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,14 +41,32 @@ public class TacheController {
     private UtilisateurService utilisateurService;
 
     @GetMapping("/taches")
-    public String listeTaches(Model model) {
-        List<Tache> taches = tacheService.findAll();
+    public String listeTaches(HttpSession session, Model model) {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if (utilisateur == null) {
+            return "redirect:/login";
+        }
+
+        int chefId = utilisateur.getId();
+        List<Project> projets = projectService.findByChefProjetId(chefId);
+
+        // Récupérer les tâches liées à chaque projet du chef
+        List<Tache> taches = new ArrayList<>();
+        for (Project projet : projets) {
+            List<Tache> tachesProjet = tacheService.findByProjetId(projet.getId());
+            taches.addAll(tachesProjet);
+        }
+
         model.addAttribute("taches", taches);
         return "chef/taches"; // /WEB-INF/views/chef/taches.jsp
     }
 
     @GetMapping("/taches/ajouter")
-    public String afficherFormulaireAjout(Model model) {
+    public String afficherFormulaireAjout(HttpSession session,Model model) {
+        Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
+        if (user == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("tache", new Tache());
 
         // Charger les listes pour les select
@@ -67,7 +90,11 @@ public class TacheController {
     }
 
     @GetMapping("/taches/modifier")
-    public String afficherFormulaireModification(@RequestParam("id") int id, Model model) {
+    public String afficherFormulaireModification(@RequestParam("id") int id, Model model,HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
+        if (user == null) {
+            return "redirect:/login";
+        }
         Tache tache = tacheService.findById(id);
         model.addAttribute("tache", tache);
 
@@ -166,5 +193,51 @@ public class TacheController {
             tacheService.save(tache);
         }
         return "redirect:/chef/taches";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard(HttpSession session, Model model) {
+
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if (utilisateur == null) {
+            return "redirect:/login";
+        }
+        int id = utilisateur.getId();
+
+        List<Project> projets = projectService.findByChefProjetId(id);
+        int nombreProjets = projets.size();
+        int nombreTaches = tacheService.countTaches();
+
+        model.addAttribute("nombreProjets", nombreProjets);
+        model.addAttribute("nombreTaches", nombreTaches);
+        model.addAttribute("projets", projets);
+
+        return "chef/dashboard";
+    }
+
+    @GetMapping("/profil")
+    public String profil(HttpSession session) {
+
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if (utilisateur == null) {
+            return "redirect:/login";
+        }
+        return "chef/profil";
+    }
+
+    @GetMapping("/projets")
+    public String projets(HttpSession session, Model model) {
+
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if (utilisateur == null) {
+            return "redirect:/login";
+        }
+        int id = utilisateur.getId();
+
+        List<Project> projets = projectService.findByChefProjetId(id);
+
+        model.addAttribute("projets", projets);
+
+        return "chef/projets";
     }
 }
