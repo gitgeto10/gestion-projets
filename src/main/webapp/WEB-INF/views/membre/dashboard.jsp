@@ -6,12 +6,11 @@
 <head>
     <meta charset="UTF-8" />
     <title>Dashboard Membre</title>
-    
+
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-    
+
     <style>
-        /* Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -58,10 +57,9 @@
             background-color: #d90429;
         }
 
-        /* Sidebar */
         .sidebar {
             position: fixed;
-            top: 60px; /* hauteur navbar */
+            top: 60px;
             left: 0;
             width: 220px;
             height: calc(100% - 60px);
@@ -102,7 +100,6 @@
             color: white;
         }
 
-        /* Main Content */
         .main-content {
             margin-left: 240px;
             padding: 90px 40px 40px 40px;
@@ -112,10 +109,9 @@
             color: #1B1B2F;
         }
 
-        /* Dashboard Cards */
         .dashboard-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2.5rem;
         }
 
@@ -124,12 +120,12 @@
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
         .card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            background-color: #f0f4ff;
         }
 
         .card h3 {
@@ -143,6 +139,12 @@
             font-size: 1.2rem;
             font-weight: 600;
             color: #1B1B2F;
+        }
+
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100px;
         }
     </style>
 </head>
@@ -173,15 +175,31 @@
 
         <div class="dashboard-container">
             <div class="card">
-                <h3>Tâches attribuées</h3>
+                <h3><i class="bi bi-clipboard-check"></i> Tâches attribuées</h3>
                 <p>Vous avez <strong><c:out value="${tacheCount}" /></strong> tâches à réaliser.</p>
             </div>
             <div class="card">
-                <h3>Projets actifs</h3>
+                <h3><i class="bi bi-folder-check"></i> Projets actifs</h3>
                 <p>Vous participez à <strong><c:out value="${projetCount}" /></strong> projets.</p>
             </div>
+            <div class="card">
+                <h3><i class="bi bi-calendar-event"></i> Aujourd'hui</h3>
+                <p id="date-time">Chargement...</p>
+            </div>
+            
+           
         </div>
     </div>
+
+    <script>
+        // Date et heure
+        const dtElement = document.getElementById("date-time");
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dtElement.innerText = now.toLocaleDateString('fr-FR', options) + " - " + now.toLocaleTimeString('fr-FR');
+
+        
+    </script>
 
 </body>
 </html>
