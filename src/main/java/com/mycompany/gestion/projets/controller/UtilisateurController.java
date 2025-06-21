@@ -38,7 +38,7 @@ public class UtilisateurController {
     public String listeUtilisateurs(Model model) {
         List<Utilisateur> utilisateurs = utilisateurService.findAll();
         model.addAttribute("utilisateurs", utilisateurs);
-        return "admin/utilisateurs"; // /WEB-INF/views/admin/liste_utilisateurs.jsp
+        return "admin/utilisateurs"; 
     }
 
     @GetMapping("/profil")

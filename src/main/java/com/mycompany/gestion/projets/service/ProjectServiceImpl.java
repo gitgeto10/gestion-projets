@@ -64,4 +64,13 @@ public class ProjectServiceImpl implements ProjectService {
     public int countProjects() {
         return projectRepository.countProjects();
     }
+    @Override
+    public int countProjetsByMembreId(int membreId) {
+        return projectRepository.countProjetsByMembreId(membreId);
+    }
+    @Override
+    public List<Project> getProjetsParMembreId(int membreId) {
+        return projectRepository.findByMembreId(membreId);
+    }
+
 }
