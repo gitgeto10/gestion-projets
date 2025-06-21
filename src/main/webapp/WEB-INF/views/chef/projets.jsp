@@ -15,7 +15,6 @@
         projets = new java.util.ArrayList<>();
     }
 
-    // Récupération des services pour afficher les noms
     WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(application);
     EquipeService equipeService = context.getBean(EquipeService.class);
     UtilisateurService utilisateurService = context.getBean(UtilisateurService.class);
@@ -26,7 +25,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestion des Projets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #393258;
+            --secondary-color: #8382b4;
+            --accent-color: #7badc9;
+            --light-bg: #f8f9fa;
+            --dark-text: #183357;
+            --danger: #d90429;
+            --success: #6cc556;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+        }
+
+        /* Navbar - Identique à votre code */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -38,42 +60,52 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            flex-wrap: wrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
+
         .logo {
             font-weight: 700;
             font-size: 1.6rem;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
         }
 
         .btn-logout {
-            background-color: #0c0c0c;
+            background: rgba(255, 255, 255, 0.15);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             font-weight: 600;
-            border-radius: 5px;
+            border-radius: 30px;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             font-size: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-logout:hover {
-            background-color: #d90429;
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
         }
 
+        /* Sidebar - Identique à votre code */
         .sidebar {
             position: fixed;
-            top: 60px;
+            top: 70px;
             left: 0;
-            width: 220px;
-            height: calc(100% - 60px);
+            width: 250px;
+            height: calc(100% - 70px);
             background-color: #201b36;
             padding-top: 1.5rem;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar ul {
@@ -82,131 +114,244 @@
         }
 
         .sidebar ul li {
-            margin: 1.2rem 0;
+            margin: 1rem 0;
         }
 
         .sidebar ul li a {
-            color: #caf0f8;
+            color: #e0e0ff;
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
             padding: 0.8rem 1.5rem;
-            font-weight: 600;
-            border-left: 5px solid transparent;
-            transition: background-color 0.3s ease, border-left 0.3s ease;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            gap: 12px;
+        }
+
+        .sidebar ul li a i {
+            width: 24px;
+            text-align: center;
             font-size: 1.1rem;
         }
 
         .sidebar ul li a:hover, .sidebar ul li a.active {
-            background-color: #7badc9;
-            border-left: 5px solid #0a024d;
+            background: linear-gradient(to right, rgba(123, 173, 201, 0.3), transparent);
+            border-left: 4px solid #7badc9;
             color: white;
         }
+
+        /* Contenu principal */
         .main-content {
-            margin-left: 240px;
-            padding: 90px 40px 40px 40px;
+            margin-left: 250px;
+            padding: 100px 40px 40px 40px;
+            min-height: 100vh;
         }
 
-        h1 {
-            margin-bottom: 20px;
-            color: #183357;
+        /* Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        table {
+        .page-title {
+            font-size: 1.8rem;
+            color: var(--dark-text);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-add {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(57, 50, 88, 0.3);
+        }
+
+        /* Table */
+        .projects-table {
             width: 100%;
             border-collapse: collapse;
             background-color: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
-        th, td {
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-            text-align: left;
-        }
-
-        th {
-            background-color: #7badc9;
+        .projects-table th {
+            background: linear-gradient(to right, #96bbcf, #8382b4);
             color: white;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .action-btn {
-            padding: 0.4rem 0.8rem;
-            border: none;
-            border-radius: 5px;
+            padding: 1.2rem 1.5rem;
+            text-align: left;
             font-weight: 600;
-            cursor: pointer;
-            margin-right: 5px;
-            text-decoration: none;
+            position: sticky;
+            top: 0;
+        }
+
+        .projects-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            color: #555;
+        }
+
+        .projects-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .projects-table tr:hover {
+            background-color: rgba(123, 173, 201, 0.05);
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
             display: inline-block;
         }
 
-        .edit-btn {
-            background-color: #6cc556;
-            color: white;
+        .status-en-cours {
+            background-color: #fff3cd;
+            color: #856404;
         }
 
-        .delete-btn {
-            background-color: #d90429;
-            color: white;
+        .status-termine {
+            background-color: #d4edda;
+            color: #155724;
         }
 
-        .view-btn {
-            background-color: #0077be;
-            color: white;
+        .status-a-faire {
+            background-color: #d1ecf1;
+            color: #0c5460;
         }
 
-        .ajouter-container {
+        .status-retard {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Action buttons */
+        .action-btns {
             display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-        .btn-ajouter {
-            background-color: #393258;
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .btn-ajouter:hover {
-            background-color: #006f4f;
+            gap: 0.5rem;
         }
 
+        .action-btn {
+            padding: 0.5rem;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            width: 34px;
+            height: 34px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-view {
+            background-color: var(--accent-color);
+        }
+
+        .btn-edit {
+            background-color: var(--success);
+        }
+
+        .btn-delete {
+            background-color: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main-content {
+                margin-left: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar ul li a span {
+                display: none;
+            }
+            .sidebar ul li a {
+                justify-content: center;
+                padding: 1rem;
+            }
+            .main-content {
+                margin-left: 70px;
+                padding: 90px 20px 20px 20px;
+            }
+
+            .projects-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
     </style>
 </head>
 <body>
 
 <!-- Navbar -->
 <div class="navbar">
-    <div class="logo">chef de projet</div>
+    <div class="logo">
+        <i class="fas fa-project-diagram"></i>
+        <span>Chef de Projet</span>
+    </div>
     <form action="${pageContext.request.contextPath}/logout" method="post">
-        <button type="submit" class="btn-logout">Déconnexion</button>
+        <button type="submit" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Déconnexion</span>
+        </button>
     </form>
 </div>
 
 <!-- Sidebar -->
 <div class="sidebar">
     <ul>
-        <li><a href="/chef/dashboard">Dashboard</a></li>
-        <li><a href="/chef/taches">Taches</a></li>
-        <li><a href="/chef/projets" class="active">Projets</a></li>
-        <li><a href="/chef/profil">Profile</a></li>
+        <li><a href="/chef/dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+        <li><a href="/chef/taches"><i class="fas fa-tasks"></i><span>Tâches</span></a></li>
+        <li><a href="/chef/projets" class="active"><i class="fas fa-project-diagram"></i><span>Projets</span></a></li>
+        <li><a href="/chef/profil"><i class="fas fa-user-circle"></i><span>Profil</span></a></li>
     </ul>
 </div>
 
 <!-- Contenu principal -->
 <div class="main-content">
-    <h1>Liste des Projets</h1>
+    <div class="page-header">
+        <h1 class="page-title">
+            <i class="fas fa-project-diagram"></i>
+            Liste des Projets
+        </h1>
+    </div>
 
-
-    <table>
+    <table class="projects-table">
         <thead>
         <tr>
             <th>ID</th>
@@ -216,28 +361,51 @@
             <th>Date Fin</th>
             <th>Statut</th>
             <th>Équipe</th>
-
         </tr>
         </thead>
         <tbody>
         <%
             for (Project projet : projets) {
-                // Récupération des noms des entités liées
                 Equipe equipe = equipeService.findById(projet.getEquipeId());
                 Utilisateur chefProjet = utilisateurService.findById(projet.getChefProjetId());
 
                 String nomEquipe = (equipe != null) ? equipe.getNom() : "Non assignée";
                 String nomChef = (chefProjet != null) ? chefProjet.getNom() : "Non assigné";
+
+                // Déterminer la classe CSS pour le statut
+                String statusClass = "";
+                if (projet.getStatut() != null) {
+                    switch (projet.getStatut().toLowerCase()) {
+                        case "en cours":
+                            statusClass = "status-en-cours";
+                            break;
+                        case "terminé":
+                            statusClass = "status-termine";
+                            break;
+                        case "en retard":
+                            statusClass = "status-retard";
+                            break;
+                        default:
+                            statusClass = "status-a-faire";
+                    }
+                }
         %>
         <tr>
             <td><%= projet.getId() %></td>
-            <td><%= projet.getNom() %></td>
-            <td><%= projet.getDescription() != null ? projet.getDescription() : "" %></td>
-            <td><%= projet.getDateDebut() != null ? projet.getDateDebut() : "" %></td>
-            <td><%= projet.getDateFin() != null ? projet.getDateFin() : "" %></td>
-            <td><%= projet.getStatut() != null ? projet.getStatut() : "" %></td>
+            <td><strong><%= projet.getNom() %></strong></td>
+            <td><%= projet.getDescription() != null ? projet.getDescription() : "-" %></td>
+            <td><%= projet.getDateDebut() != null ? projet.getDateDebut() : "-" %></td>
+            <td><%= projet.getDateFin() != null ? projet.getDateFin() : "-" %></td>
+            <td>
+                <% if (projet.getStatut() != null && !projet.getStatut().isEmpty()) { %>
+                <span class="status-badge <%= statusClass %>">
+                            <%= projet.getStatut() %>
+                        </span>
+                <% } else { %>
+                -
+                <% } %>
+            </td>
             <td><%= nomEquipe %></td>
-
 
         </tr>
         <%

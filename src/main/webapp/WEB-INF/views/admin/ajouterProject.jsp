@@ -124,6 +124,9 @@
             margin-left: 250px;
             padding: 100px 40px 40px 40px;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
@@ -133,6 +136,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            width: 100%;
+            max-width: 700px
         }
 
         .form-container {
@@ -141,6 +146,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             max-width: 700px;
+            width: 100%;
             border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;

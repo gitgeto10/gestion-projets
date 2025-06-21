@@ -3,8 +3,12 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/ajouterProject.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/modifierProject.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/projets.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/chef/ajouterTache.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/chef" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/chef/profil.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/chef" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/chef/projets.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/chef" />
       </map>
     </option>
   </component>
