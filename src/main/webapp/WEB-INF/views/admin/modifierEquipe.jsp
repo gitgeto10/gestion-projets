@@ -22,13 +22,23 @@
     String chefEquipe = request.getParameter("chefEquipe");
 %>
 
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Modifier une Équipe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        /* Copie le style de ta page utilisateur pour garder cohérence */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            min-height: 100vh;
+        }
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -40,119 +50,158 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            flex-wrap: wrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         .logo {
             font-weight: 700;
             font-size: 1.6rem;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            font-size: 1.8rem;
         }
         .btn-logout {
-            background-color: #0c0c0c;
+            background: rgba(255,255,255,0.15);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             font-weight: 600;
-            border-radius: 5px;
+            border-radius: 30px;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             font-size: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .btn-logout:hover {
-            background-color: #d90429;
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
         }
         .sidebar {
             position: fixed;
-            top: 60px;
+            top: 70px;
             left: 0;
-            width: 220px;
-            height: calc(100% - 60px);
+            width: 250px;
+            height: calc(100% - 70px);
             background-color: #201b36;
             padding-top: 1.5rem;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
         }
         .sidebar ul {
             list-style: none;
             padding-left: 0;
         }
         .sidebar ul li {
-            margin: 1.2rem 0;
+            margin: 1rem 0;
         }
         .sidebar ul li a {
-            color: #caf0f8;
+            color: #e0e0ff;
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
             padding: 0.8rem 1.5rem;
-            font-weight: 600;
-            border-left: 5px solid transparent;
-            transition: background-color 0.3s ease, border-left 0.3s ease;
-            font-size: 1.1rem;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            gap: 12px;
         }
         .sidebar ul li a:hover, .sidebar ul li a.active {
-            background-color: #7badc9;
-            border-left: 5px solid #0a024d;
+            background: linear-gradient(to right, rgba(123,173,201,0.3), transparent);
+            border-left: 4px solid #7badc9;
             color: white;
         }
-        .container {
+        .main-content {
+            margin-left: 250px;
+            padding: 100px 40px 40px 40px;
+            min-height: 100vh;
+
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 70px);
-        }
-        .form-box {
-            background-color: white;
-            padding: 2rem 3rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
         }
         h1 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #333;
+            margin-bottom: 30px;
+            color: #183357;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+        }
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+            padding: 2.5rem;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-left: 6px solid #7badc9;
         }
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.8rem;
         }
         label {
-            display: block;
-            margin-bottom: 0.5rem;
             font-weight: 600;
-        }
-        input, textarea, select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        textarea {
-            resize: vertical;
-            height: 80px;
-        }
-        .btn-submit {
-            width: 100%;
-            padding: 0.7rem;
-            border: none;
-            background-color: #393258;
-            color: white;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-        .btn-submit:hover {
-            background-color: #2a2442;
-        }
-        .back-link {
+            color: #183357;
             display: block;
-            margin-top: 1rem;
-            text-align: center;
-            color: #444;
+            margin-bottom: 0.6rem;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #7badc9;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(123,173,201,0.25);
+        }
+        .btn-container {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .btn {
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(to right, #393258, #8382b4);
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn:hover {
+            background: linear-gradient(to right, #504575, #a2a5cb);
+        }
+        .btn-secondary {
+            background: #f0f2f5;
+            color: #555;
+            padding: 0.9rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             text-decoration: none;
+        }
+        .btn-secondary:hover {
+            background: #e4e6e9;
         }
     </style>
 </head>
@@ -160,29 +209,35 @@
 
 <!-- Navbar -->
 <div class="navbar">
-    <div class="logo">AdminPanel</div>
+    <div class="logo">
+        <i class="fas fa-users-cog"></i>
+        <span>AdminPanel</span>
+    </div>
     <form action="${pageContext.request.contextPath}/logout" method="post">
-        <button type="submit" class="btn-logout">Déconnexion</button>
+        <button type="submit" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Déconnexion</span>
+        </button>
     </form>
 </div>
 
 <!-- Sidebar -->
 <div class="sidebar">
     <ul>
-        <li><a href="/admin/dashboard">Dashboard</a></li>
-        <li><a href="/admin/utilisateurs">Utilisateurs</a></li>
-        <li><a href="/admin/projets">Projets</a></li>
-        <li><a href="/admin/equipes" class="active">Équipes</a></li>
-        <li><a href="/admin/profil">Profil</a></li>
+        <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+        <li><a href="/admin/utilisateurs"><i class="fas fa-users"></i><span>Utilisateurs</span></a></li>
+        <li><a href="/admin/projets"><i class="fas fa-project-diagram"></i><span>Projets</span></a></li>
+        <li><a href="/admin/equipes" class="active"><i class="fas fa-user-friends"></i><span>Équipes</span></a></li>
+        <li><a href="/admin/profil"><i class="fas fa-user-circle"></i><span>Profil</span></a></li>
     </ul>
 </div>
 
-<div class="container">
-    <div class="form-box">
-        <h1>Modifier une Équipe</h1>
+<!-- Formulaire centré -->
+<div class="main-content">
+    <div class="form-container">
+        <h1><i class="fas fa-user-edit"></i> Modifier une Équipe</h1>
 
         <form:form modelAttribute="equipe" method="post" action="${pageContext.request.contextPath}/admin/equipes/modifier">
-            <!-- Champ caché pour l'id -->
             <input type="hidden" name="id" value="${equipe.id}" />
 
             <div class="form-group">
@@ -190,12 +245,15 @@
                 <input type="text" id="nom" name="nom" required autocomplete="off" value="${equipe.nom}" />
             </div>
 
-            
-
-            <button type="submit" class="btn-submit">Modifier</button>
+            <div class="btn-container">
+                <button type="submit" class="btn">
+                    <i class="fas fa-edit"></i> Modifier
+                </button>
+                <a href="${pageContext.request.contextPath}/admin/equipes" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </a>
+            </div>
         </form:form>
-
-        <a href="${pageContext.request.contextPath}/admin/equipes" class="back-link">← Retour</a>
     </div>
 </div>
 
