@@ -4,6 +4,9 @@ import com.mycompany.gestion.projets.model.TempsTravail;
 import java.util.List;
 
 public interface TempsTravailService {
-    void enregistrerTemps(TempsTravail tempsTravail);
-    List<TempsTravail> getTempsParMembre(int membreId);
+    boolean save(TempsTravail tempsTravail);
+    List<TempsTravail> findByMembreId(int membreId);
+    TempsTravail findByTacheIdAndMembreId(int tacheId, int membreId);
+    boolean update(TempsTravail tempsTravail);
+
 }

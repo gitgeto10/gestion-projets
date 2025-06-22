@@ -3,10 +3,12 @@ package com.mycompany.gestion.projets.controller;
 import com.mycompany.gestion.projets.model.Livrable;
 import com.mycompany.gestion.projets.model.Project;
 import com.mycompany.gestion.projets.model.Tache;
+import com.mycompany.gestion.projets.model.TempsTravail;
 import com.mycompany.gestion.projets.model.Utilisateur;
 import com.mycompany.gestion.projets.service.LivrableService;
 import com.mycompany.gestion.projets.service.ProjectService;
 import com.mycompany.gestion.projets.service.TacheService;
+import com.mycompany.gestion.projets.service.TempsTravailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +34,10 @@ public class MembreController {
 
     @Autowired
     private LivrableService livrableService;
-
+    
+    @Autowired
+    private TempsTravailService tempsTravailService;
+    
     // === 1. Tableau de bord membre ===
     @GetMapping("/dashboard")
     public String dashboard(Model model, HttpSession session) {
@@ -59,9 +64,13 @@ public class MembreController {
         }
 
         List<Tache> taches = tacheService.getTachesPourMembre(user.getId());
+        for (Tache t : taches) {
+            TempsTravail temps = tempsTravailService.findByTacheIdAndMembreId(t.getId(), user.getId());
+            t.setTempsDeclare(temps != null);
+        }
         model.addAttribute("taches", taches);
+            return "membre/mesTaches";
 
-        return "membre/mesTaches";
     }
 
     // === 3. Formulaire de soumission de livrable ===

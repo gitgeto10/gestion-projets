@@ -131,15 +131,20 @@
       margin-left: 250px;
       padding: 100px 40px 40px 40px;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centrage horizontal */
     }
 
-    h1 {
+    .page-title {
       margin-bottom: 30px;
       color: var(--dark-text);
       font-weight: 700;
       display: flex;
       align-items: center;
       gap: 12px;
+      width: 100%;
+      max-width: 700px; /* Largeur cohérente avec le formulaire */
     }
 
     .form-container {
@@ -148,6 +153,7 @@
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
       max-width: 700px;
+      width: 100%;
       border: 1px solid rgba(0, 0, 0, 0.05);
       position: relative;
       overflow: hidden;
@@ -316,6 +322,9 @@
       .btn-container {
         flex-direction: column;
       }
+      .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -348,7 +357,7 @@
 
 <!-- Contenu principal -->
 <div class="main-content">
-  <h1>
+  <h1 class="page-title">
     <i class="fas fa-edit"></i>
     Modifier Projet
     <span class="status-indicator">ID: ${project.id}</span>

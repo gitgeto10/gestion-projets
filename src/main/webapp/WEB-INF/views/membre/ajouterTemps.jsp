@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -74,6 +76,7 @@
             background-color: #201b36;
             padding-top: 1.5rem;
             box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+
         }
 
         .sidebar ul {
@@ -187,12 +190,14 @@
                 height: auto;
             }
 
+
             .main-content {
                 margin-left: 0;
                 padding: 120px 20px 20px;
             }
         }
     </style>
+
 </head>
 <body>
 
@@ -203,6 +208,7 @@
         <button type="submit" class="btn-logout">
             <i class="bi bi-box-arrow-right"></i> Déconnexion
         </button>
+
     </form>
 </div>
 
@@ -212,6 +218,7 @@
         <li><a href="/membre/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li><a href="/membre/mesTaches" class="active"><i class="bi bi-list-task"></i> Mes Tâches</a></li>
         <li><a href="/membre/profil"><i class="bi bi-person-circle"></i> Profil</a></li>
+
     </ul>
 </div>
 
@@ -228,6 +235,7 @@
 
         <form action="${pageContext.request.contextPath}/membre/temps/ajouter" method="post">
             <input type="hidden" name="tacheId" value="${temps.tacheId}" />
+
 
             <label>Tâche :</label>
             <p>
@@ -250,6 +258,7 @@
             <i class="bi bi-arrow-left-circle"></i> Retour aux tâches
         </a>
     </div>
+
 </div>
 
 </body>
