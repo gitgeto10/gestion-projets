@@ -24,12 +24,23 @@
     String role = request.getParameter("role");
 %>
 
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Modifier un Utilisateur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
+        
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+        }
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -41,173 +52,232 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            flex-wrap: wrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         .logo {
             font-weight: 700;
             font-size: 1.6rem;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            font-size: 1.8rem;
         }
         .btn-logout {
-            background-color: #0c0c0c;
+            background: rgba(255,255,255,0.15);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             font-weight: 600;
-            border-radius: 5px;
+            border-radius: 30px;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             font-size: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .btn-logout:hover {
-            background-color: #d90429;
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
         }
         .sidebar {
             position: fixed;
-            top: 60px;
+            top: 70px;
             left: 0;
-            width: 220px;
-            height: calc(100% - 60px);
+            width: 250px;
+            height: calc(100% - 70px);
             background-color: #201b36;
             padding-top: 1.5rem;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
         }
         .sidebar ul {
             list-style: none;
             padding-left: 0;
         }
         .sidebar ul li {
-            margin: 1.2rem 0;
+            margin: 1rem 0;
         }
         .sidebar ul li a {
-            color: #caf0f8;
+            color: #e0e0ff;
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
             padding: 0.8rem 1.5rem;
-            font-weight: 600;
-            border-left: 5px solid transparent;
-            transition: background-color 0.3s ease, border-left 0.3s ease;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            gap: 12px;
+        }
+        .sidebar ul li a i {
+            width: 24px;
+            text-align: center;
             font-size: 1.1rem;
         }
         .sidebar ul li a:hover, .sidebar ul li a.active {
-            background-color: #7badc9;
-            border-left: 5px solid #0a024d;
+            background: linear-gradient(to right, rgba(123,173,201,0.3), transparent);
+            border-left: 4px solid #7badc9;
             color: white;
         }
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100vh - 70px);
-        }
-        .form-box {
-            background-color: white;
-            padding: 2rem 3rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
+        
+        .form-container {
+            max-width: 600px;
+            margin: 100px auto 40px;
+            padding: 2.5rem;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-left: 6px solid #7badc9;
         }
         h1 {
             text-align: center;
-            margin-bottom: 1.5rem;
-            color: #333;
+            color: #183357;
+            margin-bottom: 30px;
         }
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.8rem;
         }
         label {
-            display: block;
-            margin-bottom: 0.5rem;
             font-weight: 600;
-        }
-        input, select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .btn-submit {
-            width: 100%;
-            padding: 0.7rem;
-            border: none;
-            background-color: #393258;
-            color: white;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-        .btn-submit:hover {
-            background-color: #2a2442;
-        }
-        .back-link {
+            color: #183357;
             display: block;
-            margin-top: 1rem;
-            text-align: center;
-            color: #444;
+            margin-bottom: 0.6rem;
+        }
+        input[type="text"], input[type="email"], input[type="password"], select {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus {
+            border-color: #7badc9;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(123,173,201,0.25);
+        }
+        .required-field::after {
+            content: " *";
+            color: #d90429;
+        }
+        .btn-container {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .btn {
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(to right, #393258, #8382b4);
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn:hover {
+            background: linear-gradient(to right, #504575, #a2a5cb);
+        }
+        .btn-secondary {
+            background: #f0f2f5;
+            color: #555;
+            padding: 0.9rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             text-decoration: none;
+        }
+        .btn-secondary:hover {
+            background: #e4e6e9;
+        }
+        small {
+            color: #777;
+            display: block;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
-
-<!-- Navbar identique à ta page Ajouter -->
+<!-- Navbar -->
 <div class="navbar">
-    <div class="logo">AdminPanel</div>
+    <div class="logo">
+        <i class="fas fa-user-plus"></i>
+        <span>AdminPanel</span>
+    </div>
     <form action="${pageContext.request.contextPath}/logout" method="post">
-        <button type="submit" class="btn-logout">Déconnexion</button>
+        <button type="submit" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Déconnexion</span>
+        </button>
     </form>
 </div>
 
-<!-- Sidebar identique -->
+<!-- Sidebar -->
 <div class="sidebar">
     <ul>
-        <li><a href="/admin/dashboard">Dashboard</a></li>
-        <li><a href="/admin/utilisateurs" class="active">Utilisateurs</a></li>
-        <li><a href="/admin/projets">Projets</a></li>
-        <li><a href="/admin/profil">Profile</a></li>
+        <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+        <li><a href="/admin/utilisateurs" class="active"><i class="fas fa-users"></i><span>Utilisateurs</span></a></li>
+        <li><a href="/admin/projets"><i class="fas fa-project-diagram"></i><span>Projets</span></a></li>
+        <li><a href="/admin/equipes"><i class="fas fa-user-friends"></i><span>Equipes</span></a></li>
+        <li><a href="/admin/profil"><i class="fas fa-user-circle"></i><span>Profile</span></a></li>
     </ul>
 </div>
 
-<div class="container">
-    <div class="form-box">
-        <h1>Modifier Utilisateur</h1>
+<div class="form-container">
+    <h1><i class="fas fa-user-edit"></i> Modifier un Utilisateur</h1>
 
-        <form:form modelAttribute="utilisateur" method="post" action="${pageContext.request.contextPath}/admin/utilisateurs/modifier">
-            <!-- Champ caché pour l'id -->
-            <input type="hidden" name="id" value="${utilisateur.id}" />
+    <form:form modelAttribute="utilisateur" method="post" action="${pageContext.request.contextPath}/admin/utilisateurs/modifier">
+        <!-- Champ caché pour l'id -->
+        <input type="hidden" name="id" value="${utilisateur.id}" />
 
-            <div class="form-group">
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required autocomplete="off" value="${utilisateur.nom}" />
-            </div>
-            <div class="form-group">
-                <label for="email">Email :</label>
-                <input type="email" id="email" name="email" required autocomplete="off" value="${utilisateur.email}" />
-            </div>
-            <div class="form-group">
-                <label for="pwd">Mot de passe :</label>
-                <!-- Mot de passe vide pour modification, à remplir si changement -->
-                <input type="password" id="pwd" name="pwd" autocomplete="new-password" />
-                <small>Laissez vide pour conserver l'ancien mot de passe</small>
-            </div>
-            <div class="form-group">
-                <label for="role">Rôle :</label>
-                <select id="role" name="role" required>
-                    <option value="" ${utilisateur.role == null ? "selected" : ""}>-- Sélectionner un rôle --</option>
-                    <option value="Administrateur" ${utilisateur.role == 'Administrateur' ? "selected" : ""}>Administrateur</option>
-                    <option value="ChefProjet" ${utilisateur.role == 'ChefProjet' ? "selected" : ""}>Chef de Projet</option>
-                    <option value="Membre" ${utilisateur.role == 'Membre' ? "selected" : ""}>Membre</option>
-                </select>
-            </div>
-            <button type="submit" class="btn-submit">Modifier</button>
-        </form:form>
+        <div class="form-group">
+            <label for="nom"><span class="required-field">Nom</span></label>
+            <input type="text" id="nom" name="nom" value="${utilisateur.nom}" required autocomplete="off" />
+        </div>
 
-        <a href="${pageContext.request.contextPath}/admin/utilisateurs" class="back-link">← Retour</a>
-    </div>
+        <div class="form-group">
+            <label for="email"><span class="required-field">Email</span></label>
+            <input type="email" id="email" name="email" value="${utilisateur.email}" required autocomplete="off" />
+        </div>
+
+        <div class="form-group">
+            <label for="pwd">Mot de passe</label>
+            <input type="password" id="pwd" name="pwd" autocomplete="new-password" /><br></br>
+            <small>Laissez vide pour conserver l'ancien mot de passe</small>
+        </div>
+
+        <div class="form-group">
+            <label for="role"><span class="required-field">Rôle</span></label>
+            <select id="role" name="role" required>
+                <option value="" ${utilisateur.role == null ? "selected" : ""}>-- Sélectionner un rôle --</option>
+                <option value="Administrateur" ${utilisateur.role == 'Administrateur' ? "selected" : ""}>Administrateur</option>
+                <option value="ChefProjet" ${utilisateur.role == 'ChefProjet' ? "selected" : ""}>Chef de Projet</option>
+                <option value="Membre" ${utilisateur.role == 'Membre' ? "selected" : ""}>Membre</option>
+            </select>
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" class="btn">
+                <i class="fas fa-edit"></i> Modifier
+            </button>
+            <a href="${pageContext.request.contextPath}/admin/utilisateurs" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Retour
+            </a>
+        </div>
+    </form:form>
 </div>
 
 </body>
