@@ -1,197 +1,231 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
-    <title>Soumettre un Livrable</title>
-<style>
-       /* Navbar */
+    <title>Modifier un Livrable</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            min-height: 100vh;
+        }
         .navbar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: linear-gradient(90deg, #96bbcf, #8382b4);
-          padding: 1rem 2rem;
-          color: white;
-          position: fixed;
-          width: 100%;
-          top: 0;
-          z-index: 1000;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-          flex-wrap: wrap;
-       }
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #96bbcf, #8382b4);
+            padding: 1rem 2rem;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
         .logo {
             font-weight: 700;
             font-size: 1.6rem;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-
-        /* Bouton déconnexion */
+        .logo i {
+            font-size: 1.8rem;
+        }
         .btn-logout {
-            background-color: #0c0c0c;
+            background: rgba(255,255,255,0.15);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             font-weight: 600;
-            border-radius: 5px;
+            border-radius: 30px;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             font-size: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
         .btn-logout:hover {
-            background-color: #d90429;
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
         }
-
-        /* Sidebar */
         .sidebar {
             position: fixed;
-            top: 60px; /* hauteur navbar */
+            top: 70px;
             left: 0;
-            width: 220px;
-            height: calc(100% - 60px);
+            width: 250px;
+            height: calc(100% - 70px);
             background-color: #201b36;
             padding-top: 1.5rem;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
         }
-
         .sidebar ul {
             list-style: none;
             padding-left: 0;
         }
-
         .sidebar ul li {
-            margin: 1.2rem 0;
+            margin: 1rem 0;
         }
-
         .sidebar ul li a {
-            color: #caf0f8;
+            color: #e0e0ff;
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
             padding: 0.8rem 1.5rem;
-            font-weight: 600;
-            border-left: 5px solid transparent;
-            transition: background-color 0.3s ease, border-left 0.3s ease;
-            font-size: 1.1rem;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            gap: 12px;
         }
-
         .sidebar ul li a:hover, .sidebar ul li a.active {
-            background-color: #7badc9;
-            border-left: 5px solid #0a024d;
+            background: linear-gradient(to right, rgba(123,173,201,0.3), transparent);
+            border-left: 4px solid #7badc9;
             color: white;
         }
-        .container {
+        .main-content {
+            margin-left: 250px;
+            padding: 100px 40px 40px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
             max-width: 600px;
-            margin: 80px auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            width: 100%;
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-left: 6px solid #7badc9;
         }
         h1 {
-            color: #615544;
+            color: #183357;
             margin-bottom: 1.5rem;
+            font-weight: 700;
             text-align: center;
-        }
-        .date-depot {
-            text-align: center;
-            font-weight: 600;
-            color: #444;
-            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
         }
         label {
-            display: block;
-            margin-bottom: .5rem;
             font-weight: 600;
-            color: #2B2B2B;
+            color: #183357;
+            display: block;
+            margin-bottom: 0.5rem;
         }
-        select, input[type="text"], input[type="file"] {
+        input[type="text"], input[type="file"] {
             width: 100%;
-            padding: .6rem;
+            padding: 0.8rem 1.2rem;
             margin-bottom: 1.2rem;
-            border-radius: 5px;
-            border: 1px solid #bbb;
+            border-radius: 8px;
+            border: 1px solid #ccc;
             font-size: 1rem;
         }
-        button {
-            background-color: #7c6934;
-            color: white;
-            padding: 0.8rem 1.5rem;
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            padding: 0.8rem 1.8rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #393258, #8382b4);
+            font-size: 1.05rem;
             cursor: pointer;
-            font-weight: 700;
-            width: 100%;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        button:hover {
-            background-color: #2e7d32;
+        .btn:hover {
+            background: linear-gradient(to right, #504575, #a2a5cb);
         }
-        .message {
-            margin: 1rem auto;
-            padding: 1rem;
-            background-color: #e0dfcb;
-            color: #2e6e4c;
-            border-radius: 6px;
-            border: 1px solid #c3e6cb;
-            text-align: center;
-            max-width: 500px;
+        .btn-secondary {
+            background: #f0f2f5;
+            color: #555;
+            text-decoration: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-secondary:hover {
+            background: #e0e0e0;
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar et sidebar inchangés -->
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="logo">Espace Membre</div>
-        <div class="nav-links">
-            <form action="/logout" method="post" style="display:inline;">
-                <button type="submit" class="btn-logout">Déconnexion</button>
-            </form>
-        </div>
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo">
+        <i class="fas fa-tasks"></i>
+        <span>Espace Membre</span>
     </div>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <ul>
-            <li><a href="/membre/dashboard">Dashboard</a></li>
-            <li><a href="/membre/mesTaches" class="active">Mes Tâches</a></li>
-            <li><a href="/membre/profil">Profil</a></li>
-        </ul>
-    </div>
-
-<div class="container">
-    <h1>Modifier un Livrable</h1>
-        
-<form action="${pageContext.request.contextPath}/membre/modifierLivrable" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="${livrable.id}" />
-    <input type="hidden" name="tacheId" value="${livrable.tacheId}" />
-
-    <label>Nom du livrable :</label>
-    <input type="text" name="nom" value="${livrable.nom}" required />
-
-    <br/>
-
-    <label>Fichier actuel :</label>
-    <c:if test="${not empty livrable.fichierNom}">
-        <p>${livrable.fichierNom}</p>
-    </c:if>
-    <c:if test="${empty livrable.fichierNom}">
-    </c:if>
-
-    <label>Nouveau fichier (facultatif) :</label>
-    <input type="file" name="fichier" />
-    <br/>
-    <button type="submit">Modifier</button>
-</form>
-    <br/>
-    <a href="${pageContext.request.contextPath}/membre/mesTaches">Retour aux tâches</a>
+    <form action="${pageContext.request.contextPath}/logout" method="post">
+        <button type="submit" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Déconnexion</span>
+        </button>
+    </form>
 </div>
-    </body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <ul>
+        <li><a href="/membre/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+        <li><a href="/membre/mesTaches" class="active"><i class="fas fa-tasks"></i> Mes Tâches</a></li>
+        <li><a href="/membre/profil"><i class="fas fa-user"></i> Profil</a></li>
+    </ul>
+</div>
+
+<!-- Formulaire centré -->
+<div class="main-content">
+    <div class="form-container">
+        <h1><i class="fas fa-pen-to-square"></i> Modifier un Livrable</h1>
+
+        <form action="${pageContext.request.contextPath}/membre/modifierLivrable" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="${livrable.id}" />
+            <input type="hidden" name="tacheId" value="${livrable.tacheId}" />
+
+            <label for="nom">Nom du livrable :</label>
+            <input type="text" id="nom" name="nom" value="${livrable.nom}" required />
+
+            <c:if test="${not empty livrable.fichierNom}">
+                <label>Fichier actuel :</label>
+                <p>${livrable.fichierNom}</p>
+            </c:if>
+
+            <label for="fichier">Nouveau fichier (facultatif) :</label>
+            <input type="file" id="fichier" name="fichier" />
+
+            <div class="btn-container">
+                <button type="submit" class="btn">
+                    <i class="fas fa-upload"></i> Modifier
+                </button>
+                <a href="${pageContext.request.contextPath}/membre/mesTaches" class="btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
 </html>
