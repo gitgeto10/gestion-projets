@@ -204,7 +204,6 @@
 
 <!-- Contenu principal -->
 <div class="main-content">
-<<<<<<< HEAD
     <h1>Liste de mes tâches</h1>
 <c:if test="${not empty info}">
     <script>
@@ -212,9 +211,7 @@
     </script>
 </c:if>
 
-=======
-    <h1><i class="bi bi-list-check"></i> Mes Tâches</h1>
->>>>>>> a079ebe8dfe4e0e144e163d804e28947fb879cdb
+
 
     <c:if test="${empty taches}">
         <p>Aucune tâche assignée.</p>
@@ -261,30 +258,7 @@
                         </td>
                     </tr>
                 </c:forEach>
-=======
-            <c:forEach var="tache" items="${taches}">
-                <tr>
-                    <td>${tache.nom}</td>
-                    <td>${tache.dureeEstimee}</td>
-                    <td>${tache.etat}</td>
-                    <td>${tache.projetNom}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${tache.livrableId != null}">
-                                <a href="modifierLivrable?id=${tache.livrableId}" class="livrable-btn modifier">
-                                    <i class="bi bi-pencil-square"></i> Modifier Livrable
-                                </a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="soumettreLivrable?tacheId=${tache.id}" class="livrable-btn soumettre">
-                                    <i class="bi bi-upload"></i> Soumettre Livrable
-                                </a>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
-            </c:forEach>
->>>>>>> a079ebe8dfe4e0e144e163d804e28947fb879cdb
+
             </tbody>
         </table>
     </c:if>
