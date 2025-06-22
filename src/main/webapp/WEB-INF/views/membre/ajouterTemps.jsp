@@ -1,12 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mes Tâches</title>
-<style>
+    <title>Ajouter Temps de Travail</title>
+    <style>
+
        /* Navbar */
         .navbar {
           display: flex;
@@ -134,7 +135,7 @@
                 margin-left: 0;
                 padding: 120px 20px 20px;
             }
-        }
+}
 </style>
 </head>
 <body>
@@ -151,68 +152,41 @@
 <div class="sidebar">
     <ul>
         <li><a href="/membre/dashboard">Dashboard</a></li>
-        <li><a href="/membre/mesTaches" class="active">Mes Tâches</a></li>
+        <li><a href="/membre/mesTaches">Mes Tâches</a></li>
         <li><a href="/membre/profil">Profil</a></li>
     </ul>
 </div>
 
 <!-- Contenu principal -->
 <div class="main-content">
-    <h1>Liste de mes tâches</h1>
-<c:if test="${not empty info}">
-    <script>
-        alert("${fn:escapeXml(info)}");
-    </script>
-</c:if>
+    <h1>Ajouter un temps de travail</h1>
 
-
-    <c:if test="${empty taches}">
-        <p>Aucune tâche assignée.</p>
+    <c:if test="${not empty info}">
+        <div style="color: red;">${info}</div>
     </c:if>
 
-    <c:if test="${not empty taches}">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Durée Estimée</th>
-                    <th>État</th>
-                    <th>Projet</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
+    <form action="${pageContext.request.contextPath}/membre/temps/ajouter" method="post">
+        <input type="hidden" name="tacheId" value="${temps.tacheId}" />
+
+        <div class="form-group mt-3">
+            <label>Tâche :</label>
+            <p>
                 <c:forEach var="tache" items="${taches}">
-                    <tr>
-                        <td>${tache.nom}</td>
-                        <td>${tache.dureeEstimee}</td>
-                        <td>${tache.etat}</td>
-                        <td>${tache.projetNom}</td>
-                        <td>
-                            <c:choose>
-<c:when test="${tache.livrableId != null}">
-                                    <a href="modifierLivrable?id=${tache.livrableId}" class="livrable-btn">Modifier Livrable</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="soumettreLivrable?tacheId=${tache.id}" class="livrable-btn">Soumettre Livrable</a>
-                                </c:otherwise>
-                            </c:choose>
-                             
-    <!-- 🔽 Bouton pour déclarer du temps -->
-<c:choose>
-    <c:when test="${tache.tempsDeclare}">
-        <a href="${pageContext.request.contextPath}/membre/temps/modifier?tacheId=${tache.id}" class="livrable-btn" style="background-color:#f0ad4e; margin-left:10px;">Modifier Temps</a>
-    </c:when>
-    <c:otherwise>
-        <a href="${pageContext.request.contextPath}/membre/temps/ajouter?tacheId=${tache.id}" class="livrable-btn" style="background-color:#0275d8; margin-left:10px;">Déclarer Temps</a>
-    </c:otherwise>
-</c:choose>
-                        </td>
-                    </tr>
+                    <c:if test="${tache.id == temps.tacheId}">
+                        ${tache.nom}
+                    </c:if>
                 </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+            </p>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="duree">Durée:</label>
+            <input type="number" class="form-control" name="duree" id="duree" required min="1">
+        </div>
+
+        <button type="submit" class="livrable-btn" style="margin-top: 20px;">Enregistrer</button>
+        <a href="${pageContext.request.contextPath}/membre/mesTaches" class="livrable-btn" style="background-color: #6c757d; margin-left:10px;">Retour</a>
+    </form>
 </div>
 
 </body>

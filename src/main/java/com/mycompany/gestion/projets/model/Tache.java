@@ -9,6 +9,16 @@ public class Tache {
     private Integer membreId;
 private String projetNom;
 private Integer livrableId;
+private boolean tempsDeclare;
+
+public boolean isTempsDeclare() {
+    return tempsDeclare;
+}
+
+public void setTempsDeclare(boolean tempsDeclare) {
+    this.tempsDeclare = tempsDeclare;
+}
+
 
 public Integer getLivrableId() {
     return livrableId;

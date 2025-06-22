@@ -1,12 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mes Tâches</title>
-<style>
+    <title>Modifier Temps de Travail</title>
+    <style>
+        /* Copie ici tout le CSS de ta page "Mes Tâches" exactement */
+        
        /* Navbar */
         .navbar {
           display: flex;
@@ -88,41 +90,51 @@
             margin-left: 240px;
             padding: 100px 40px 40px;
             min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         h1 {
             margin-bottom: 30px;
             color: #183357;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-        }
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        label {
             font-weight: 600;
-            color: #1B1B2F;
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
         }
-        th {
-            background-color: #7badc9;
-            color: white;
+        input[type="number"], .form-control-plaintext, p {
+            font-size: 1rem;
+            padding: 6px 10px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
-        a.livrable-btn {
+        .form-control-plaintext {
+            border: none;
+            background: transparent;
+            padding-left: 0;
+        }
+        button, .btn-secondary {
             background-color: #388E3C;
             color: white;
-            padding: 5px 10px;
+            padding: 8px 16px;
             border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
             transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
-        a.livrable-btn:hover {
+        button:hover, .btn-secondary:hover {
             background-color: #2e7d32;
+            text-decoration: none;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            margin-left: 15px;
         }
         @media(max-width: 600px) {
             .sidebar {
@@ -135,7 +147,7 @@
                 padding: 120px 20px 20px;
             }
         }
-</style>
+    </style>
 </head>
 <body>
 
@@ -158,61 +170,27 @@
 
 <!-- Contenu principal -->
 <div class="main-content">
-    <h1>Liste de mes tâches</h1>
-<c:if test="${not empty info}">
-    <script>
-        alert("${fn:escapeXml(info)}");
-    </script>
-</c:if>
+    <h1>Modifier Temps de Travail</h1>
 
+    <form action="${pageContext.request.contextPath}/membre/temps/modifier" method="post">
+        <input type="hidden" name="id" value="${temps.id}" />
+        <input type="hidden" name="tacheId" value="${temps.tacheId}" />
 
-    <c:if test="${empty taches}">
-        <p>Aucune tâche assignée.</p>
-    </c:if>
+        <label>Tâche :</label>
+        <p class="form-control-plaintext">
+            <c:forEach var="tache" items="${taches}">
+                <c:if test="${tache.id == temps.tacheId}">
+                    ${tache.nom}
+                </c:if>
+            </c:forEach>
+        </p>
 
-    <c:if test="${not empty taches}">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Durée Estimée</th>
-                    <th>État</th>
-                    <th>Projet</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="tache" items="${taches}">
-                    <tr>
-                        <td>${tache.nom}</td>
-                        <td>${tache.dureeEstimee}</td>
-                        <td>${tache.etat}</td>
-                        <td>${tache.projetNom}</td>
-                        <td>
-                            <c:choose>
-<c:when test="${tache.livrableId != null}">
-                                    <a href="modifierLivrable?id=${tache.livrableId}" class="livrable-btn">Modifier Livrable</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="soumettreLivrable?tacheId=${tache.id}" class="livrable-btn">Soumettre Livrable</a>
-                                </c:otherwise>
-                            </c:choose>
-                             
-    <!-- 🔽 Bouton pour déclarer du temps -->
-<c:choose>
-    <c:when test="${tache.tempsDeclare}">
-        <a href="${pageContext.request.contextPath}/membre/temps/modifier?tacheId=${tache.id}" class="livrable-btn" style="background-color:#f0ad4e; margin-left:10px;">Modifier Temps</a>
-    </c:when>
-    <c:otherwise>
-        <a href="${pageContext.request.contextPath}/membre/temps/ajouter?tacheId=${tache.id}" class="livrable-btn" style="background-color:#0275d8; margin-left:10px;">Déclarer Temps</a>
-    </c:otherwise>
-</c:choose>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+        <label for="duree">Durée (heures) :</label>
+        <input type="number" name="duree" id="duree" value="${temps.duree}" required min="1" />
+
+        <button type="submit">Enregistrer</button>
+        <a href="${pageContext.request.contextPath}/membre/mesTaches" class="btn-secondary">Retour</a>
+    </form>
 </div>
 
 </body>

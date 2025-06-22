@@ -2,22 +2,32 @@ package com.mycompany.gestion.projets.service;
 
 import com.mycompany.gestion.projets.model.TempsTravail;
 import com.mycompany.gestion.projets.repository.TempsTravailRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class TempsTravailServiceImpl implements TempsTravailService {
-    private final TempsTravailRepository repository;
 
-    public TempsTravailServiceImpl(TempsTravailRepository repository) {
-        this.repository = repository;
+    @Autowired
+    private TempsTravailRepository tempsTravailRepository;
+
+    @Override
+    public boolean save(TempsTravail tempsTravail) {
+        return tempsTravailRepository.save(tempsTravail);
     }
 
     @Override
-    public void enregistrerTemps(TempsTravail tempsTravail) {
-        repository.save(tempsTravail);
+    public List<TempsTravail> findByMembreId(int membreId) {
+        return tempsTravailRepository.findByMembreId(membreId);
     }
-
     @Override
-    public List<TempsTravail> getTempsParMembre(int membreId) {
-        return repository.findByMembreId(membreId);
+    public TempsTravail findByTacheIdAndMembreId(int tacheId, int membreId) {
+        return tempsTravailRepository.findByTacheIdAndMembreId(tacheId, membreId);
+    }
+    @Override
+    public boolean update(TempsTravail tempsTravail) {
+        return tempsTravailRepository.update(tempsTravail);
     }
 }
