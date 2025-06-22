@@ -204,14 +204,12 @@
 
 <!-- Contenu principal -->
 <div class="main-content">
-    <h1>Liste de mes tâches</h1>
-<c:if test="${not empty info}">
+    <h1><i class="bi bi-list-check"></i> Mes Tâches</h1>
+    <c:if test="${not empty info}">
     <script>
         alert("${fn:escapeXml(info)}");
     </script>
-</c:if>
-
-
+    </c:if>
 
     <c:if test="${empty taches}">
         <p>Aucune tâche assignée.</p>
@@ -229,24 +227,26 @@
             </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD
-                <c:forEach var="tache" items="${taches}">
-                    <tr>
-                        <td>${tache.nom}</td>
-                        <td>${tache.dureeEstimee}</td>
-                        <td>${tache.etat}</td>
-                        <td>${tache.projetNom}</td>
-                        <td>
-                            <c:choose>
-<c:when test="${tache.livrableId != null}">
-                                    <a href="modifierLivrable?id=${tache.livrableId}" class="livrable-btn">Modifier Livrable</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="soumettreLivrable?tacheId=${tache.id}" class="livrable-btn">Soumettre Livrable</a>
-                                </c:otherwise>
-                            </c:choose>
-                             
-    <!-- 🔽 Bouton pour déclarer du temps -->
+            <c:forEach var="tache" items="${taches}">
+                <tr>
+                    <td>${tache.nom}</td>
+                    <td>${tache.dureeEstimee}</td>
+                    <td>${tache.etat}</td>
+                    <td>${tache.projetNom}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${tache.livrableId != null}">
+                                <a href="modifierLivrable?id=${tache.livrableId}" class="livrable-btn modifier">
+                                    <i class="bi bi-pencil-square"></i> Modifier Livrable
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="soumettreLivrable?tacheId=${tache.id}" class="livrable-btn soumettre">
+                                    <i class="bi bi-upload"></i> Soumettre Livrable
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
+ <!-- 🔽 Bouton pour déclarer du temps -->
 <c:choose>
     <c:when test="${tache.tempsDeclare}">
         <a href="${pageContext.request.contextPath}/membre/temps/modifier?tacheId=${tache.id}" class="livrable-btn" style="background-color:#f0ad4e; margin-left:10px;">Modifier Temps</a>
@@ -255,10 +255,9 @@
         <a href="${pageContext.request.contextPath}/membre/temps/ajouter?tacheId=${tache.id}" class="livrable-btn" style="background-color:#0275d8; margin-left:10px;">Déclarer Temps</a>
     </c:otherwise>
 </c:choose>
-                        </td>
-                    </tr>
-                </c:forEach>
-
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </c:if>
