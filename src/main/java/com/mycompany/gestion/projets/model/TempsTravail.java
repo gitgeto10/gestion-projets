@@ -1,17 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.gestion.projets.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class TempsTravail {
     private int id;
-    private int duree;
+    private int duree; // en heures
     private Date date;
-    private int membreId;
-    private int tacheId;
+    private Integer membreId;
+    private Integer tacheId;
 
     // Getters et Setters
     public int getId() { return id; }
@@ -23,9 +19,9 @@ public class TempsTravail {
     public Date getDate() { return date; }
     public void setDate(Date date) { this.date = date; }
 
-    public int getMembreId() { return membreId; }
-    public void setMembreId(int membreId) { this.membreId = membreId; }
+    public Integer getMembreId() { return membreId; }
+    public void setMembreId(Integer membreId) { this.membreId = membreId; }
 
-    public int getTacheId() { return tacheId; }
-    public void setTacheId(int tacheId) { this.tacheId = tacheId; }
+    public Integer getTacheId() { return tacheId; }
+    public void setTacheId(Integer tacheId) { this.tacheId = tacheId; }
 }
