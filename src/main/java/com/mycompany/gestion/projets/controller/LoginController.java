@@ -61,7 +61,12 @@ public class LoginController {
         return "redirect:/login";
     }
     @GetMapping("admin/home")
-    public String adminHome(Model model) {
+    public String adminHome(HttpSession session,Model model) {
+        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
+
         int totalUtilisateurs = utilisateurService.countUtilisateurs();
         model.addAttribute("totalUtilisateurs", totalUtilisateurs);
         int totalEquipes = equipeService.countEquipes();
