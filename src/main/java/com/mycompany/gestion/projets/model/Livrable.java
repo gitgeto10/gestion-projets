@@ -13,15 +13,17 @@ public class Livrable {
     private String fichierNom;
     private Date dateDepot;
     private int tacheId;
+    private String tacheNom;
 
     public Livrable() {}
 
-    public Livrable(int id, String nom, String fichierNom, Date dateDepot, int tacheId) {
+    public Livrable(int id, String nom, String fichierNom, Date dateDepot, int tacheId, String tacheNom) {
         this.id = id;
         this.nom = nom;
         this.fichierNom = fichierNom;
         this.dateDepot = dateDepot;
         this.tacheId = tacheId;
+        this.tacheNom = tacheNom;
     }
 
     // Getters et setters
@@ -65,4 +67,6 @@ public class Livrable {
     public void setTacheId(int tacheId) {
         this.tacheId = tacheId;
     }
+    public String getTacheNom() { return tacheNom; }
+    public void setTacheNom(String tacheNom) { this.tacheNom = tacheNom; }
 }

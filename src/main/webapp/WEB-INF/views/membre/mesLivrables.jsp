@@ -1,12 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Mes Tâches</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <meta charset="UTF-8" />
+    <title>Mes Livrables</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
     <style>
         * {
@@ -144,29 +145,8 @@
             border-bottom: 1px solid #eee;
         }
 
-        a.livrable-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: background-color 0.3s ease;
-            color: white;
-        }
-
-        a.livrable-btn:hover {
-            opacity: 0.9;
-        }
-
-        .soumettre {
-            background-color: #0d6efd;
-        }
-
-        .modifier {
-            background-color: #388E3C;
+        tr:hover {
+            background-color: #e8f0fe;
         }
 
         @media(max-width: 768px) {
@@ -188,81 +168,58 @@
 <!-- Navbar -->
 <div class="navbar">
     <div class="logo"><i class="bi bi-person-badge"></i> Espace Membre</div>
-    <form action="${pageContext.request.contextPath}/logout" method="post">
-        <button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i> Déconnexion</button>
+    <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline;">
+        <button type="submit" class="btn-logout">
+            <i class="bi bi-box-arrow-right"></i> Déconnexion
+        </button>
     </form>
 </div>
 
 <!-- Sidebar -->
 <div class="sidebar">
     <ul>
-        <li><a href="/membre/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-        <li><a href="/membre/mesTaches" class="active"><i class="bi bi-list-task"></i> Mes Tâches</a></li>
-        <li><a href="/membre/mesLivrables"><i class="bi bi-folder2-open"></i> Mes Livrables</a></li> 
-        <li><a href="/membre/profil"><i class="bi bi-person-circle"></i> Profil</a></li>
+        <li><a href="${pageContext.request.contextPath}/membre/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li><a href="${pageContext.request.contextPath}/membre/mesTaches"><i class="bi bi-list-check"></i> Mes Tâches</a></li>
+        <li><a href="${pageContext.request.contextPath}/membre/mesLivrables" class="active"><i class="bi bi-folder2-open"></i> Mes Livrables</a></li>
+        <li><a href="${pageContext.request.contextPath}/membre/profil"><i class="bi bi-person-circle"></i> Profil</a></li>
     </ul>
 </div>
 
-
-<!-- Contenu principal -->
+<!-- Main Content -->
 <div class="main-content">
-    <h1><i class="bi bi-list-check"></i> Mes Tâches</h1>
-    <c:if test="${not empty info}">
-    <script>
-        alert("${fn:escapeXml(info)}");
-    </script>
+    <h1><i class="bi bi-folder2-open"></i> Mes Livrables</h1>
+
+    <c:if test="${not empty error}">
+        <p style="color:red;">${error}</p>
     </c:if>
 
-    <c:if test="${empty taches}">
-        <p>Aucune tâche assignée.</p>
-    </c:if>
-
-    <c:if test="${not empty taches}">
-        <table>
-            <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Durée Estimée</th>
-                <th>État</th>
-                <th>Projet</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="tache" items="${taches}">
-                <tr>
-                    <td>${tache.nom}</td>
-                    <td>${tache.dureeEstimee}</td>
-                    <td>${tache.etat}</td>
-                    <td>${tache.projetNom}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${tache.livrableId != null}">
-                                <a href="modifierLivrable?id=${tache.livrableId}" class="livrable-btn modifier">
-                                    <i class="bi bi-pencil-square"></i> Modifier Livrable
-                                </a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="soumettreLivrable?tacheId=${tache.id}" class="livrable-btn soumettre">
-                                    <i class="bi bi-upload"></i> Soumettre Livrable
-                                </a>
-                            </c:otherwise>
-                        </c:choose>
- <!-- 🔽 Bouton pour déclarer du temps -->
-<c:choose>
-    <c:when test="${tache.tempsDeclare}">
-        <a href="${pageContext.request.contextPath}/membre/temps/modifier?tacheId=${tache.id}" class="livrable-btn" style="background-color:#f0ad4e; margin-left:10px;">Modifier Temps</a>
-    </c:when>
-    <c:otherwise>
-        <a href="${pageContext.request.contextPath}/membre/temps/ajouter?tacheId=${tache.id}" class="livrable-btn" style="background-color:#0275d8; margin-left:10px;">Déclarer Temps</a>
-    </c:otherwise>
-</c:choose>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+    <c:choose>
+        <c:when test="${empty livrables}">
+            <p>Aucun livrable trouvé pour vos tâches.</p>
+        </c:when>
+        <c:otherwise>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom du Livrable</th>
+                        <th>Nom du Fichier</th>
+                        <th>Date de Dépôt</th>
+                        <th>Nom de Tâche</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="livrable" items="${livrables}">
+                        <tr>
+                            <td>${livrable.nom}</td>
+                            <td>${livrable.fichierNom}</td>
+                            <td><fmt:formatDate value="${livrable.dateDepot}" pattern="dd/MM/yyyy" /></td>
+                            <td>${livrable.tacheNom}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 </div>
 
 </body>

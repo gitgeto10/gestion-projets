@@ -8,6 +8,14 @@
     <title>Dashboard Membre</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <style>
+        :root {
+            --primary-color: #393258;
+            --secondary-color: #8382b4;
+            --accent-color: #7badc9;
+            --light-bg: #f8f9fa;
+            --dark-text: #183357;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,7 +24,7 @@
         }
 
         body {
-            background-color: #f0f4ef;
+            background-color: #f5f7fa;
         }
 
         .navbar {
@@ -98,8 +106,13 @@
             gap: 12px;
         }
 
-        .sidebar ul li a:hover,
-        .sidebar ul li a.active {
+        .sidebar ul li a i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .sidebar ul li a:hover, .sidebar ul li a.active {
             background: linear-gradient(to right, rgba(123, 173, 201, 0.3), transparent);
             border-left: 4px solid #7badc9;
             color: white;
@@ -112,44 +125,101 @@
         }
 
         h1 {
+            margin-bottom: 30px;
             color: #183357;
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .dashboard-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
         .card {
-            background-color: white;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
             padding: 2rem;
             border-radius: 16px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, #7badc9, #8382b4);
         }
 
         .card:hover {
-            transform: translateY(-6px);
-            background-color: #f0f4ff;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
         }
 
         .card h3 {
-            margin-bottom: 1rem;
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: #615544;
+            color: #393258;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+        }
+
+        .card h3 i {
+            color: #7badc9;
         }
 
         .card p {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #1b1b2f;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #183357;
+        }
+
+        .card .card-footer {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main-content {
+                margin-left: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar ul li a span {
+                display: none;
+            }
+            .sidebar ul li a {
+                justify-content: center;
+                padding: 1rem;
+            }
+            .main-content {
+                margin-left: 70px;
+                padding: 90px 20px 20px 20px;
+            }
+            .card h3 {
+                font-size: 1.3rem;
+            }
+            .card p {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
@@ -170,6 +240,7 @@
         <ul>
             <li><a href="/membre/dashboard" class="active"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
             <li><a href="/membre/mesTaches"><i class="bi bi-list-check"></i> Mes Tâches</a></li>
+            <li><a href="/membre/mesLivrables"><i class="bi bi-folder2-open"></i><span>Mes Livrables</span></a></li> <!-- ajouté -->
             <li><a href="/membre/profil"><i class="bi bi-person-circle"></i> Profil</a></li>
         </ul>
     </div>
@@ -180,20 +251,21 @@
 
         <div class="dashboard-container">
             <div class="card">
-                <h3><i class="bi bi-clipboard-check"></i> Tâches attribuées</h3>
-                <p>Vous avez <strong><c:out value="${tacheCount}" /></strong> tâches à réaliser.</p>
+                <h3><i class="fas fa-tasks"></i> Tâches attribuées</h3>
+            <p>${tacheCount}</p>
+            <div class="card-footer">tâches à réaliser.</div>
             </div>
             <div class="card">
-                <h3><i class="bi bi-folder-check"></i> Projets actifs</h3>
-                <p>Vous participez à <strong><c:out value="${projetCount}" /></strong> projets.</p>
+                <h3><i class="fas fa-tasks"></i> Projets actifs</h3>
+                <p>${projetCount}</p>
+                <div class="card-footer">projets à réaliser.</div>
             </div>
             <div class="card">
-                <h3><i class="bi bi-calendar-event"></i> Aujourd'hui</h3>
-                <p id="date-time">Chargement...</p>
+                <h3><i class="fas fa-tasks"></i> Aujourd'hui</h3>
+                <div class="card-footer" id="date-time">Chargement...</div>
             </div>
         </div>
     </div>
-
     <script>
         // Affiche la date/heure actuelles en français
         const dtElement = document.getElementById("date-time");

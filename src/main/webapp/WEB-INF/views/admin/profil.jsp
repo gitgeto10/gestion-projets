@@ -346,18 +346,9 @@
                     <div class="profile-value">${utilisateur.role}</div>
                 </div>
 
-                <div class="profile-field">
-                    <span class="profile-label"><i class="fas fa-calendar-alt"></i> Date d'inscription</span>
-                    <div class="profile-value">01/05/2023</div> <!-- À remplacer si tu as la vraie date -->
-                </div>
             </div>
         </div>
 
-        <div class="btn-container">
-            <button class="btn btn-primary">
-                <i class="fas fa-key"></i> Modifier le mot de passe
-            </button>
-        </div>
     </div>
 </div>
 </body>

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -228,13 +229,20 @@
             <h3><i class="fas fa-user-friends"></i> Equipes</h3>
             <p>Nombre total : ${totalEquipes}</p>
         </div>
-       
-        <div class="card">
-            <h3><i class="fas fa-file-alt"></i> Livrables soumis</h3>
-            <p>45 livrables reçus</p>
-        </div>
+            <div class="card">
+                <h3><i class="fas fa-tasks"></i> Aujourd'hui</h3>
+                <div class="card-footer" id="date-time">Chargement...</div>
+            </div>
+                </div>
+
     </div>
 </div>
-
+<script>
+        // Affiche la date/heure actuelles en français
+        const dtElement = document.getElementById("date-time");
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dtElement.innerText = now.toLocaleDateString('fr-FR', options) + " - " + now.toLocaleTimeString('fr-FR');
+    </script>
 </body>
 </html>

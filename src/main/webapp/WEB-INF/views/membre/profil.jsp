@@ -9,6 +9,8 @@
     <meta charset="UTF-8">
     <title>Profil Membre</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+
     <style>
         :root {
             --primary-color: #393258;
@@ -307,11 +309,13 @@
 
 <div class="sidebar">
     <ul>
-        <li><a href="${pageContext.request.contextPath}/membre/dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-        <li><a href="${pageContext.request.contextPath}/membre/mesTaches"><i class="fas fa-tasks"></i><span>Mes Tâches</span></a></li>
-        <li><a href="${pageContext.request.contextPath}/membre/profil" class="active"><i class="fas fa-user-circle"></i><span>Profil</span></a></li>
+        <li><a href="/membre/dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+        <li><a href="/membre/mesTaches"><i class="fas fa-tasks"></i><span>Mes Tâches</span></a></li>
+        <li><a href="/membre/mesLivrables"><i class="bi bi-folder2-open"></i><span>Mes Livrables</span></a></li> 
+        <li><a href="/membre/profil" class="active"><i class="fas fa-user-circle"></i><span>Profil</span></a></li>
     </ul>
 </div>
+
 
 <div class="main-content">
     <div class="profile-container">
@@ -345,41 +349,10 @@
                     <div class="profile-value">${utilisateur.role}</div>
                 </div>
 
-                <div class="profile-field">
-                    <span class="profile-label"><i class="fas fa-calendar-alt"></i> Date d'inscription</span>
-                    <div class="profile-value">01/05/2023</div> <!-- Si tu as la date, remplace -->
-                </div>
             </div>
         </div>
 
-        <div class="profile-section">
-            <h2 class="profile-section-title">
-                <i class="fas fa-chart-bar"></i> Statistiques
-            </h2>
 
-            <div class="profile-grid">
-                <div class="profile-field">
-                    <span class="profile-label"><i class="fas fa-tasks"></i> Tâches assignées</span>
-                    <div class="profile-value">10</div> <!-- Remplace par données dynamiques -->
-                </div>
-
-                <div class="profile-field">
-                    <span class="profile-label"><i class="fas fa-check-circle"></i> Tâches complétées</span>
-                    <div class="profile-value">8</div>
-                </div>
-
-                <div class="profile-field">
-                    <span class="profile-label"><i class="fas fa-exclamation-triangle"></i> Tâches en retard</span>
-                    <div class="profile-value">1</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="btn-container">
-            <button class="btn btn-primary">
-                <i class="fas fa-key"></i> Modifier le mot de passe
-            </button>
-        </div>
     </div>
 </div>
 

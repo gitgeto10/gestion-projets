@@ -40,11 +40,11 @@ public class LoginController {
 
             switch (role) {
                 case "administrateur":
-                    return "redirect:/admin/home";
+                    return "redirect:/admin/dashboard";
                 case "chefprojet":
                     return "redirect:/chef/dashboard";
                 case "membre":
-                    return "redirect:/membre/home";
+                    return "redirect:/membre/dashboard";
                 default:
                     model.addAttribute("error", "Rôle non reconnu !");
                     return "common/login";
@@ -60,29 +60,5 @@ public class LoginController {
         session.invalidate();
         return "redirect:/login";
     }
-    @GetMapping("admin/home")
-    public String adminHome(HttpSession session,Model model) {
-        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
-        if (utili == null) {
-            return "redirect:/login";
-        }
 
-        int totalUtilisateurs = utilisateurService.countUtilisateurs();
-        model.addAttribute("totalUtilisateurs", totalUtilisateurs);
-        int totalEquipes = equipeService.countEquipes();
-        model.addAttribute("totalEquipes", totalEquipes);
-        int totalProjets = projectService.countProjects();
-        model.addAttribute("totalProjets", totalProjets);
-        return "admin/dashboard"; 
-    }
-
-    @GetMapping("chef/home")
-    public String chefHome() {
-        return "chef/dashboard"; // chef_home.jsp
-    }
-
-    @GetMapping("membre/home")
-    public String membreHome() {
-        return "membre/dashboard"; // membre_home.jsp
-    }
 }

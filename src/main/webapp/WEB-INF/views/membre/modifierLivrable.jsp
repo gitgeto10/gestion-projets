@@ -186,7 +186,6 @@
     </form>
 </div>
 
-<!-- Sidebar -->
 <div class="sidebar">
     <ul>
         <li><a href="/membre/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
