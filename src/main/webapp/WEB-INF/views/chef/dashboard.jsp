@@ -269,15 +269,11 @@
 
         <div class="card">
             <h3><i class="fas fa-users"></i> Équipe</h3>
-            <p>${nombreMembres}</p>
+            <p>${totalEquipes}</p>
             <div class="card-footer">Membres dans votre équipe</div>
         </div>
 
-        <div class="card">
-            <h3><i class="fas fa-clock"></i> Retards</h3>
-            <p>${tachesRetard}</p>
-            <div class="card-footer">Tâches en retard</div>
-        </div>
+
     </div>
 </div>
 
