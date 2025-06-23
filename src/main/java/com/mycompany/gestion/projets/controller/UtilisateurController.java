@@ -9,6 +9,7 @@ import com.mycompany.gestion.projets.service.EquipeService;
 import com.mycompany.gestion.projets.service.UtilisateurService;
 import com.mycompany.gestion.projets.service.ProjectService;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,10 +42,6 @@ public class UtilisateurController {
         return "admin/utilisateurs"; 
     }
 
-    @GetMapping("/profil")
-    public String profil() {
-        return "admin/profil";
-    }
     @GetMapping("/utilisateurs/ajouter")
     public String afficherFormulaireAjout(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
@@ -86,5 +83,14 @@ public class UtilisateurController {
         return "admin/dashboard"; // fichier JSP
     }
     
-    
+   @GetMapping("/profil")
+public String profil(Model model, HttpSession session) {
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+    if (utilisateur == null) {
+        return "redirect:/login";
+    }
+    model.addAttribute("utilisateur", utilisateur);
+    return "admin/profil";  
+}
+ 
 }

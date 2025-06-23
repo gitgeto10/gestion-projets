@@ -157,4 +157,16 @@ public String modifierLivrable(@ModelAttribute Livrable livrable,
 
     return "redirect:/membre/mesTaches";
 }
+
+@GetMapping("/profil")
+public String profil(Model model, HttpSession session) {
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+    if (utilisateur == null) {
+        return "redirect:/login";
+    }
+    model.addAttribute("utilisateur", utilisateur);
+    return "membre/profil"; 
+}
+
+
 }

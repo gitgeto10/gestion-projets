@@ -239,7 +239,7 @@
                 </c:forEach>
             </p>
 
-            <label for="duree">Durée (heures) :</label>
+            <label for="duree">Durée:</label>
             <input type="number" name="duree" id="duree" value="${temps.duree}" required min="1" />
 
             <button type="submit"><i class="bi bi-check-circle"></i> Enregistrer</button>
