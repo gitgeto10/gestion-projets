@@ -4,6 +4,7 @@ import com.mycompany.gestion.projets.model.Tache;
 import com.mycompany.gestion.projets.model.Project;
 import com.mycompany.gestion.projets.model.Utilisateur;
 import com.mycompany.gestion.projets.service.TacheService;
+import com.mycompany.gestion.projets.service.EquipeService;
 import com.mycompany.gestion.projets.service.ProjectService;
 import com.mycompany.gestion.projets.service.UtilisateurService;
 
@@ -39,6 +40,8 @@ public class TacheController {
     private ProjectService projectService;
     @Autowired
     private UtilisateurService utilisateurService;
+    @Autowired
+    private EquipeService equipeService;
 
     @GetMapping("/taches")
     public String listeTaches(HttpSession session, Model model) {
@@ -206,11 +209,20 @@ public class TacheController {
 
         List<Project> projets = projectService.findByChefProjetId(id);
         int nombreProjets = projets.size();
-        int nombreTaches = tacheService.countTaches();
+
+        List<Tache> taches = new ArrayList<>();
+        for (Project projet : projets) {
+            List<Tache> tachesProjet = tacheService.findByProjetId(projet.getId());
+            taches.addAll(tachesProjet);
+        }
+
+        int nombreTaches = taches.size();
 
         model.addAttribute("nombreProjets", nombreProjets);
         model.addAttribute("nombreTaches", nombreTaches);
         model.addAttribute("projets", projets);
+        int totalEquipes = equipeService.countEquipes();
+        model.addAttribute("totalEquipes", totalEquipes);
 
         return "chef/dashboard";
     }
