@@ -88,5 +88,48 @@ public Livrable findById(int id) throws SQLException {
         stmt.executeUpdate();
     }
 }
+        public List<Livrable> findLivrablesByTaches(List<Integer> tacheIds) throws SQLException {
+        if (tacheIds == null || tacheIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        // Construction dynamique de la clause IN (?, ?, ...)
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tacheIds.size(); i++) {
+            sb.append("?");
+            if (i < tacheIds.size() - 1) {
+                sb.append(",");
+            }
+        }
+
+        String sql = "SELECT l.*, t.nom AS tache_nom FROM livrable l " +
+                     "JOIN tache t ON l.tache_id = t.id " +
+                     "WHERE l.tache_id IN (" + sb.toString() + ")";
+
+        List<Livrable> livrables = new ArrayList<>();
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Bind des paramètres
+            for (int i = 0; i < tacheIds.size(); i++) {
+                stmt.setInt(i + 1, tacheIds.get(i));
+            }
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Livrable l = new Livrable();
+                l.setId(rs.getInt("id"));
+                l.setNom(rs.getString("nom"));
+                l.setFichierNom(rs.getString("fichier"));
+                l.setDateDepot(rs.getDate("dateDepot"));
+                l.setTacheId(rs.getInt("tache_id"));
+                l.setTacheNom(rs.getString("tache_nom"));
+                livrables.add(l);
+            }
+        }
+        return livrables;
+    }
 
 }

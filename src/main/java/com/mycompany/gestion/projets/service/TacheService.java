@@ -19,4 +19,7 @@ public interface TacheService {
     int countTachesByEtat(String etat);
     int countByUserId(int userId);
     List<Tache> getTachesPourMembre(int membreId);
+    int countByMembreId(int membreId);
+    void changerEtatTache(int tacheId, String nouvelEtat);
+
 }

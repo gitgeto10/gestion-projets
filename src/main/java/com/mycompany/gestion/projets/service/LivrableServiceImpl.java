@@ -53,4 +53,11 @@ public class LivrableServiceImpl implements LivrableService {
         return null;
     }
 }
+    @Override
+    public List<Livrable> getLivrablesByTaches(List<Integer> tacheIds) throws SQLException {
+        if (tacheIds == null || tacheIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return livrableRepository.findLivrablesByTaches(tacheIds);
+    }
 }

@@ -1,11 +1,14 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Modifier Temps de Travail</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <meta charset="UTF-8" />
+    <title>Mes Livrables</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
     <style>
         * {
             margin: 0;
@@ -18,6 +21,7 @@
             background-color: #f0f4f9;
         }
 
+        /* Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -64,6 +68,7 @@
             transform: translateY(-2px);
         }
 
+        /* Sidebar */
         .sidebar {
             position: fixed;
             top: 70px;
@@ -102,88 +107,46 @@
             color: white;
         }
 
+        /* Main content */
         .main-content {
             margin-left: 250px;
             padding: 100px 40px 40px;
             min-height: 100vh;
         }
 
-        .form-container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-            border-left: 6px solid #7badc9;
-        }
-
         h1 {
             color: #183357;
-            text-align: center;
-            margin-bottom: 30px;
             font-size: 2rem;
+            margin-bottom: 30px;
         }
 
-        label {
-            font-weight: 600;
-            display: block;
-            margin-bottom: .5rem;
-            color: #2c3e50;
-        }
-
-        input[type="number"] {
+        table {
             width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
         }
 
-        p {
-            background: #f0f0f0;
-            padding: .7rem 1rem;
-            border-radius: 6px;
+        th, td {
+            padding: 15px;
+            text-align: left;
             font-weight: 500;
-            margin-bottom: 1.5rem;
+            color: #1B1B2F;
         }
 
-        button {
-            background-color: #393258;
+        th {
+            background-color: #7badc9;
             color: white;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 700;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease;
         }
 
-        button:hover {
-            background-color: #2a2442;
+        tr:not(:last-child) td {
+            border-bottom: 1px solid #eee;
         }
 
-        .btn-secondary {
-            background-color: #6c757d;
-            text-align: center;
-            margin-top: 10px;
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            color: white;
-            font-weight: bold;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
+        tr:hover {
+            background-color: #e8f0fe;
         }
 
         @media(max-width: 768px) {
@@ -205,7 +168,7 @@
 <!-- Navbar -->
 <div class="navbar">
     <div class="logo"><i class="bi bi-person-badge"></i> Espace Membre</div>
-    <form action="${pageContext.request.contextPath}/logout" method="post">
+    <form action="${pageContext.request.contextPath}/logout" method="post" style="display:inline;">
         <button type="submit" class="btn-logout">
             <i class="bi bi-box-arrow-right"></i> Déconnexion
         </button>
@@ -215,40 +178,48 @@
 <!-- Sidebar -->
 <div class="sidebar">
     <ul>
-        <li><a href="/membre/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-        <li><a href="/membre/mesTaches" class="active"><i class="bi bi-list-task"></i> Mes Tâches</a></li>
-        <li><a href="/membre/profil"><i class="bi bi-person-circle"></i> Profil</a></li>
+        <li><a href="${pageContext.request.contextPath}/membre/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li><a href="${pageContext.request.contextPath}/membre/mesTaches"><i class="bi bi-list-check"></i> Mes Tâches</a></li>
+        <li><a href="${pageContext.request.contextPath}/membre/mesLivrables" class="active"><i class="bi bi-folder2-open"></i> Mes Livrables</a></li>
+        <li><a href="${pageContext.request.contextPath}/membre/profil"><i class="bi bi-person-circle"></i> Profil</a></li>
     </ul>
 </div>
 
-<!-- Contenu principal -->
+<!-- Main Content -->
 <div class="main-content">
-    <div class="form-container">
-        <h1><i class="bi bi-pencil-square"></i> Modifier Temps de Travail</h1>
+    <h1><i class="bi bi-folder2-open"></i> Mes Livrables</h1>
 
-        <form action="${pageContext.request.contextPath}/membre/temps/modifier" method="post">
-            <input type="hidden" name="id" value="${temps.id}" />
-            <input type="hidden" name="tacheId" value="${temps.tacheId}" />
+    <c:if test="${not empty error}">
+        <p style="color:red;">${error}</p>
+    </c:if>
 
-            <label>Tâche :</label>
-            <p>
-                <c:forEach var="tache" items="${taches}">
-                    <c:if test="${tache.id == temps.tacheId}">
-                        ${tache.nom}
-                    </c:if>
-                </c:forEach>
-            </p>
-
-            <label for="duree">Durée:</label>
-            <input type="number" name="duree" id="duree" value="${temps.duree}" required min="1" />
-
-            <button type="submit"><i class="bi bi-check-circle"></i> Enregistrer</button>
-
-            <a href="${pageContext.request.contextPath}/membre/mesTaches" class="btn-secondary">
-                <i class="bi bi-arrow-left-circle"></i> Retour
-            </a>
-        </form>
-    </div>
+    <c:choose>
+        <c:when test="${empty livrables}">
+            <p>Aucun livrable trouvé pour vos tâches.</p>
+        </c:when>
+        <c:otherwise>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom du Livrable</th>
+                        <th>Nom du Fichier</th>
+                        <th>Date de Dépôt</th>
+                        <th>Nom de Tâche</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="livrable" items="${livrables}">
+                        <tr>
+                            <td>${livrable.nom}</td>
+                            <td>${livrable.fichierNom}</td>
+                            <td><fmt:formatDate value="${livrable.dateDepot}" pattern="dd/MM/yyyy" /></td>
+                            <td>${livrable.tacheNom}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 </div>
 
 </body>

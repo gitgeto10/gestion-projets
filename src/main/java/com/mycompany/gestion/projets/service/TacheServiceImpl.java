@@ -97,4 +97,18 @@ public class TacheServiceImpl implements TacheService {
     public List<Tache> getTachesPourMembre(int membreId) {
         return tacheRepository.findTachesPourMembre(membreId);
     }
+    @Override
+    public int countByMembreId(int membreId) {
+        return tacheRepository.countByMembreId(membreId);
+}
+    @Override
+    public void changerEtatTache(int tacheId, String nouvelEtat) {
+        Tache tache = tacheRepository.findById(tacheId);
+        if (tache != null) {
+            tache.setEtat(nouvelEtat);
+            tacheRepository.save(tache); // save fait UPDATE si id > 0
+        }
+    }
+
+
 }

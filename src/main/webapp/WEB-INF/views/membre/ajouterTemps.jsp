@@ -246,7 +246,7 @@
                 </c:forEach>
             </p>
 
-            <label for="duree">Durée (heures) :</label>
+            <label for="duree">Durée:</label>
             <input type="number" id="duree" name="duree" required min="1" placeholder="Ex. 2">
 
             <button type="submit">

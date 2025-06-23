@@ -386,63 +386,10 @@
                     <div class="profile-value"><%= role %></div>
                 </div>
 
-                <div class="profile-field">
-                    <span class="profile-label">
-                        <i class="fas fa-calendar-alt"></i>
-                        Date d'inscription
-                    </span>
-                    <div class="profile-value">15/03/2023</div>
-                </div>
+            
             </div>
         </div>
 
-        <div class="profile-section">
-            <h2 class="profile-section-title">
-                <i class="fas fa-chart-bar"></i>
-                Statistiques
-            </h2>
-
-            <div class="profile-grid">
-                <div class="profile-field">
-                    <span class="profile-label">
-                        <i class="fas fa-project-diagram"></i>
-                        Projets en cours
-                    </span>
-                    <div class="profile-value">3</div>
-                </div>
-
-                <div class="profile-field">
-                    <span class="profile-label">
-                        <i class="fas fa-tasks"></i>
-                        Tâches assignées
-                    </span>
-                    <div class="profile-value">12</div>
-                </div>
-
-                <div class="profile-field">
-                    <span class="profile-label">
-                        <i class="fas fa-check-circle"></i>
-                        Tâches complétées
-                    </span>
-                    <div class="profile-value">28</div>
-                </div>
-
-                <div class="profile-field">
-                    <span class="profile-label">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Tâches en retard
-                    </span>
-                    <div class="profile-value">2</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="btn-container">
-            <button class="btn btn-primary">
-                <i class="fas fa-edit"></i>
-                Modifier le profil
-            </button>
-        </div>
     </div>
 </div>
 

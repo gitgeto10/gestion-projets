@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/membre")
@@ -46,7 +47,7 @@ public class MembreController {
             return "redirect:/login";
         }
 
-        int tacheCount = tacheService.countByUserId(user.getId());
+        int tacheCount = tacheService.countByMembreId(user.getId());
         int projetCount = projectService.countProjetsByMembreId(user.getId());
 
         model.addAttribute("tacheCount", tacheCount);
@@ -72,8 +73,33 @@ public class MembreController {
             return "membre/mesTaches";
 
     }
+    @GetMapping("/mesLivrables")
+    public String afficherLivrables(Model model, HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
+        if (user == null || !user.getRole().equalsIgnoreCase("membre")) {
+            return "redirect:/login";
+        }
 
-    // === 3. Formulaire de soumission de livrable ===
+        try {
+            // Récupérer la liste des tâches du membre
+            List<Tache> taches = tacheService.getTachesPourMembre(user.getId());
+            List<Integer> tacheIds = taches.stream()
+                                          .map(Tache::getId)
+                                          .collect(Collectors.toList());
+
+            // Récupérer les livrables associés à ces tâches
+            List<Livrable> livrables = livrableService.getLivrablesByTaches(tacheIds);
+
+            model.addAttribute("livrables", livrables);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Erreur lors de la récupération des livrables.");
+        }
+
+        return "membre/mesLivrables";
+    }
+
+    // Formulaire de soumission de livrable ===
     @GetMapping("/soumettreLivrable")
     public String afficherFormulaireSoumission(@RequestParam("tacheId") Integer tacheId, Model model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
@@ -94,24 +120,30 @@ public String soumettreLivrable(@ModelAttribute Livrable livrable,
                                 @RequestParam("fichier") MultipartFile fichier,
                                 @RequestParam("tacheId") int tacheId,
                                 HttpSession session) {
+    try {
+        Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        if (fichier != null && !fichier.isEmpty()) {
+            String nomFichier = fichier.getOriginalFilename();
+            livrable.setFichierNom(nomFichier);
+        }
+        livrable.setDateDepot(Date.valueOf(LocalDate.now()));
+        livrable.setTacheId(tacheId);
+        livrableService.soumettreLivrable(livrable);
 
-    Utilisateur user = (Utilisateur) session.getAttribute("utilisateur");
-    if (user == null) {
-        return "redirect:/login";
+        
+        tacheService.changerEtatTache(tacheId, "Terminé");
+
+        return "redirect:/membre/mesTaches";
+    } catch (Exception e) {
+        e.printStackTrace();
+        // tu peux aussi ajouter un message d'erreur dans le model et retourner une page d'erreur personnalisée
+        return "error"; // ou une autre page d’erreur custom
     }
-
-    if (fichier != null && !fichier.isEmpty()) {
-        String nomFichier = fichier.getOriginalFilename();
-        // Tu peux enregistrer le fichier ici si nécessaire
-        livrable.setFichierNom(nomFichier);
-    }
-
-    livrable.setDateDepot(Date.valueOf(LocalDate.now()));
-    livrable.setTacheId(tacheId); // important
-
-    livrableService.soumettreLivrable(livrable);
-    return "redirect:/membre/mesTaches";
 }
+
 
 
 @GetMapping("/mesProjets")
@@ -156,5 +188,15 @@ public String modifierLivrable(@ModelAttribute Livrable livrable,
     livrableService.modifierLivrable(livrable);
 
     return "redirect:/membre/mesTaches";
+}
+
+@GetMapping("/profil")
+public String profil(Model model, HttpSession session) {
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+    if (utilisateur == null) {
+        return "redirect:/login";
+    }
+    model.addAttribute("utilisateur", utilisateur);
+    return "membre/profil"; 
 }
 }

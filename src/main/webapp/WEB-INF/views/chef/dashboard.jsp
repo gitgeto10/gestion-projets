@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -272,10 +274,18 @@
             <p>${totalEquipes}</p>
             <div class="card-footer">Membres dans votre équipe</div>
         </div>
-
-
+            <div class="card">
+                <h3><i class="fas fa-tasks"></i> Aujourd'hui</h3>
+                <div class="card-footer" id="date-time">Chargement...</div>
+            </div>
     </div>
 </div>
-
+    <script>
+        // Affiche la date/heure actuelles en français
+        const dtElement = document.getElementById("date-time");
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dtElement.innerText = now.toLocaleDateString('fr-FR', options) + " - " + now.toLocaleTimeString('fr-FR');
+    </script>
 </body>
 </html>

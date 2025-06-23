@@ -198,9 +198,11 @@
     <ul>
         <li><a href="/membre/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
         <li><a href="/membre/mesTaches" class="active"><i class="bi bi-list-task"></i> Mes Tâches</a></li>
+        <li><a href="/membre/mesLivrables"><i class="bi bi-folder2-open"></i> Mes Livrables</a></li> 
         <li><a href="/membre/profil"><i class="bi bi-person-circle"></i> Profil</a></li>
     </ul>
 </div>
+
 
 <!-- Contenu principal -->
 <div class="main-content">

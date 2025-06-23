@@ -322,4 +322,17 @@ String sql =
     }
     return taches;
 }
+public int countByMembreId(int membreId) {
+    String sql = "SELECT COUNT(*) AS total FROM tache WHERE membre_id = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, membreId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("total");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return 0;
+}
 }
