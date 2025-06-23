@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author dell
@@ -39,15 +41,24 @@ public class ProjectController {
     private UtilisateurService utilisateurService;
 
     @GetMapping("/projets")
-    public String listeProjets(Model model) {
+    public String listeProjets(HttpSession session, Model model) {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if (utilisateur == null) {
+            return "redirect:/login";
+        }
         List<Project> projets = projectService.findAll();
         model.addAttribute("projets", projets);
         return "admin/projets"; // /WEB-INF/views/admin/projets.jsp
     }
 
     @GetMapping("/projets/ajouter")
-    public String afficherFormulaireAjout(Model model) {
+    public String afficherFormulaireAjout(HttpSession session,Model model) {
+        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("project", new Project());
+
 
         // Charger les listes pour les select
         List<Equipe> equipes = equipeService.findAll();
@@ -68,7 +79,11 @@ public class ProjectController {
     }
 
     @GetMapping("/projets/modifier")
-    public String afficherFormulaireModification(@RequestParam("id") int id, Model model) {
+    public String afficherFormulaireModification(@RequestParam("id") int id,HttpSession session, Model model) {
+        Utilisateur utili = (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
         Project project = projectService.findById(id);
         model.addAttribute("project", project);
 
