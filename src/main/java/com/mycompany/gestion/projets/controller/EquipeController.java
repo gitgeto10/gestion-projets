@@ -5,6 +5,7 @@
 package com.mycompany.gestion.projets.controller;
 
 import com.mycompany.gestion.projets.model.Equipe;
+import com.mycompany.gestion.projets.model.Utilisateur;
 import com.mycompany.gestion.projets.service.EquipeService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,14 +32,22 @@ public class EquipeController {
     private EquipeService equipeService;
 
     @GetMapping("/equipes")
-    public String listeEquipes(Model model) {
+    public String listeEquipes(HttpSession session, Model model) {
+        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
         List<Equipe> equipes = equipeService.findAll();
         model.addAttribute("equipes", equipes);
         return "admin/equipes"; // /WEB-INF/views/admin/liste_utilisateurs.jsp
     }
 
     @GetMapping("/equipes/ajouter")
-    public String afficherFormulaireAjout(Model model) {
+    public String afficherFormulaireAjout(HttpSession session,Model model) {
+        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("equipe", new Equipe());
         return "admin/ajouterEquipe";  // ajouter_Equipe.jsp
     }
@@ -48,7 +59,11 @@ public class EquipeController {
     }
 
     @GetMapping("/equipes/modifier")
-    public String afficherFormulaireModification(@RequestParam("id") int id, Model model) {
+    public String afficherFormulaireModification(@RequestParam("id") int id,HttpSession session, Model model) {
+        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
         Equipe equipe = equipeService.findById(id);
         model.addAttribute("equipe", equipe);
         return "admin/modifierEquipe";  // modifier_equipe.jsp
