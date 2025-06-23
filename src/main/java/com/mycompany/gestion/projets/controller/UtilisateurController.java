@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author dell
@@ -36,26 +38,39 @@ public class UtilisateurController {
     private ProjectService projectService;
 
     @GetMapping("/utilisateurs")
-    public String listeUtilisateurs(Model model) {
+    public String listeUtilisateurs(HttpSession session, Model model) {
+        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
         List<Utilisateur> utilisateurs = utilisateurService.findAll();
         model.addAttribute("utilisateurs", utilisateurs);
         return "admin/utilisateurs"; 
     }
 
     @GetMapping("/utilisateurs/ajouter")
-    public String afficherFormulaireAjout(Model model) {
+    public String afficherFormulaireAjout(HttpSession session,Model model) {
+        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("utilisateur", new Utilisateur());
         return "admin/ajouterUtilisateur";  // ajouter_utilisateur.jsp
     }
 
     @PostMapping("/utilisateurs/ajouter")
     public String ajouterUtilisateur(@ModelAttribute Utilisateur utilisateur) {
+
         utilisateurService.save(utilisateur);
         return "redirect:/admin/utilisateurs";
     }
 
     @GetMapping("/utilisateurs/modifier")
-    public String afficherFormulaireModification(@RequestParam("id") int id, Model model) {
+    public String afficherFormulaireModification(@RequestParam("id") int id, HttpSession session,Model model) {
+        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
         Utilisateur utilisateur = utilisateurService.findById(id);
         model.addAttribute("utilisateur", utilisateur);
         return "admin/modifierUtilisateur";  // modifier_utilisateur.jsp
@@ -73,7 +88,11 @@ public class UtilisateurController {
         return "redirect:/admin/utilisateurs";
     }
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(HttpSession session,Model model) {
+        Utilisateur utili= (Utilisateur) session.getAttribute("utilisateur");
+        if (utili == null) {
+            return "redirect:/login";
+        }
         int totalUtilisateurs = utilisateurService.countUtilisateurs();
         model.addAttribute("totalUtilisateurs", totalUtilisateurs);
         int totalEquipes = equipeService.countEquipes();
